@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+			<meta name="keywords" content="操作系统,Python 学习笔记,Python教程">
+		
+			<meta name="description" content="Unix-Like系统使用自基准点以来消逝的秒数来表达绝对时间。绝对时间:某个绝对精确的时间值。如2010-11-113...">
+		
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta content=always name=referrer>
+	<link rel="stylesheet" href="stylesheets/page_article.min.333ba298.css">
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script>
+		<title>操作系统 - Python 学习笔记</title>
+	</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="article-header">
+	<div class="container article-container">
+		<span class="title"><a href="">Python 学习笔记</a></span>
+	</div>
+</div>
+<div class="container article-container">
+	<div class="left fl " data-offset-top="300">
+		<div class="left_title"><a class="" href="">刷新页面</a></div>
+		<div class="left_line"></div>
+		<div class="left_title">
+		<p>第一部分 Python 语言</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="basic-environment.html">基本环境</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="index.html">内置类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="expression.html">表达式</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="function.html">函数</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="iterator.html">迭代器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="module.html">模块</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="class.html">类</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="abnormal.html">异常</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="decorator.html">装饰器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="descriptor.html">描述符</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="metaclass.html">元类</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<p>第二部分 标准库</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="string.html">字符串</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-type.html">数据类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="mathematical-operations.html">数学运算</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="files-and-directories.html">文件与目录</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-stored.html">数据存储</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=" active "  href="operating-system.html">操作系统</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="process-communication.html">进程通信</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="application-framework.html">程序框架</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="extended-library.html">第三部分 扩展库</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="appendix.html">附录</a>
+		</div>
+	</div>
+	<div class="main fl">
+		<div class="markdown-body"><h1>操作系统</h1>
+<h2 id="07cc694b9b3fc636710fa08b6922c42b">time</h2>
+<p>Unix-Like 系统使用自基准点以来消逝的秒数来表达绝对时间。</p>
+<ul>
+<li>绝对时间: 某个绝对精确的时间值。如 2010-11-1 13:48:05 。</li>
+<li>相对时间: 相对于某个时间的前后差。如 5分钟以前。</li>
+<li>epoch: 基准点。1970-01-01 00:00:00 UTC。</li>
+<li>UTC: 协调世界时。世界不同时区的一个基准，比如中国为 UTC+8。</li>
+<li>DST: 阳光节约时 (夏时制)。好在我国已经取消了，真麻烦。</li>
+</ul>
+<p>用 time() 返回自 epoch 以来的秒数，gmtime()、localtime() 将其转换为 struct_time 结构体。</p>
+<pre><code>&gt;&gt;&gt; from time import *
+&gt;&gt;&gt; t = time()
+&gt;&gt;&gt; t
+1357761634.903692
+&gt;&gt;&gt; gmtime(t)   # epoch -&gt; UTC
+time.struct_time(tm_year=2013, tm_mon=1, tm_mday=9, tm_hour=20, tm_min=0, tm_sec=34,
+tm_wday=2, tm_yday=9, tm_isdst=0)
+&gt;&gt;&gt; localtime(t)   # epoch -&gt; Local (UTC+8)
+time.struct_time(tm_year=2013, tm_mon=1, tm_mday=10, tm_hour=4, tm_min=0, tm_sec=34,
+tm_wday=3, tm_yday=10, tm_isdst=0)</code></pre>
+<p>将 struct_time 转回 epoch。</p>
+<pre><code>&gt;&gt;&gt; from calendar import timegm
+&gt;&gt;&gt; t = time()
+&gt;&gt;&gt; t
+1357762219.162796
+&gt;&gt;&gt; utc = gmtime(t)  # epoch -&gt; UTC
+&gt;&gt;&gt; timegm(utc)   # UTC -&gt; epoch
+1357762219
+&gt;&gt;&gt; local = localtime(t)  # epoch -&gt; local
+&gt;&gt;&gt; mktime(local)   # local -&gt; epoch
+1357762219</code></pre>
+<p>与 datetime 的转换，注意返回的是 localtime 时间。</p>
+<pre><code>&gt;&gt;&gt; from datetime import datetime
+&gt;&gt;&gt; from time import time
+&gt;&gt;&gt; t = time()
+&gt;&gt;&gt; d = datetime.fromtimestamp(t)  # localtime 时间
+&gt;&gt;&gt; d
+datetime.datetime(2013, 1, 10, 4, 20, 27, 301148)
+&gt;&gt;&gt; d.timetuple()
+time.struct_time(tm_year=2013, tm_mon=1, tm_mday=10, tm_hour=4, tm_min=20, tm_sec=27,
+tm_wday=3, tm_yday=10, tm_isdst=-1)</code></pre>
+<p>相关函数：</p>
+<p>ctime: 将 epoch 转换为字符串。
+asctime: 将 struct_time 转换为字符串。</p>
+<pre><code>&gt;&gt;&gt; t = time()
+&gt;&gt;&gt; ctime(t)
+'Thu Jan 10 04:26:01 2013'
+&gt;&gt;&gt; asctime(localtime(t))
+'Thu Jan 10 04:26:01 2013'</code></pre>
+<p>clock: 返回当前进程消耗的CPU时间 (秒)。
+sleep: 暂停进程 (秒，可以是小数，以便设置毫秒、微秒级暂停)。</p>
+<pre><code>&gt;&gt;&gt; clock()
+0.56022400000000006
+&gt;&gt;&gt; sleep(0.1)</code></pre>
+<p>strftime: 将 struct_time 格式化为字符串。
+strptime: 将字符串格式化为 struct_time。</p>
+<pre><code>&gt;&gt;&gt; t = time()
+&gt;&gt;&gt; s = strftime("%Y-%m-%d %H:%M:%S", localtime(t))
+&gt;&gt;&gt; s
+'2013-01-10 04:27:39'
+&gt;&gt;&gt; strptime(s, "%Y-%m-%d %H:%M:%S")
+time.struct_time(tm_year=2013, tm_mon=1, tm_mday=10, tm_hour=4, tm_min=27, tm_sec=39,
+tm_wday=3, tm_yday=10, tm_isdst=-1)</code></pre>
+<p>timezone: 与 UTC 的时差。
+tzname: 当前时区名称。</p>
+<pre><code>&gt;&gt;&gt; timezone / 3600
+-8
+&gt;&gt;&gt; tzname    # 北京时间，China Standard Time
+('CST', 'CST')</code></pre>
+<h2 id="b180e860a2a9deea961d1cdba245f0ac">threading</h2>
+<p>尽管因为 GIL 的缘故，Python 多线程一直遭受种种非议。但作为多个并发执行流程，多线程是无法完全用 &quot;手工&quot; 切换的协程来替代的。</p>
+<h3>Thread</h3>
+<p>创建 Thread 实例，传入待执行函数。</p>
+<pre><code>&gt;&gt;&gt; from threading import Thread, currentThread, activeCount
+&gt;&gt;&gt; def test(s):
+...     print "ident:", currentThread().ident
+...     print "count:", activeCount()
+...     print s
+...
+&gt;&gt;&gt; Thread(target = test, args = ("Hello",)).start()
+ident: 4353970176
+count: 3
+Hello</code></pre>
+<p>除了标识符，还可以线程取个名字，这有助于调试。</p>
+<p>还可以继承 Thread 实现自己的线程类。</p>
+<pre><code>&gt;&gt;&gt; class MyThread(Thread):
+...     def __init__(self, name, *args):
+...         super(MyThread, self).__init__(name = name)
+...         self.data = args
+...
+...     def run(self):
+...         print self.name, self.data
+&gt;&gt;&gt; MyThread("abc", range(10)).start()
+abc ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9],)</code></pre>
+<p>将线程 daemon 属性设为 True，那么表示这是一个背景线程，进程退出时不会等待该线程结束。</p>
+<p>调用 join() 等待线程结束，可提供超时参数 (秒，浮点数设定更小粒度)。isAlive() 检查线程状态，join() 可多次调用。</p>
+<pre><code>&gt;&gt;&gt; from time import sleep
+&gt;&gt;&gt; def test():
+...     print "__thread_start__"
+...     sleep(10)
+...     print "__thread_exit__"
+&gt;&gt;&gt; def run():
+...     t = Thread(target = test)
+...     t.start()
+...     t.join(2)   // 超时
+...
+...     print t.isAlive() // 检查状态
+...     t.join()   // 再次等待
+...
+...     print "over"
+&gt;&gt;&gt; run()
+__thread_start__
+True
+__thread_exit__
+over!</code></pre>
+<h3>Lock</h3>
+<p>Lock 不支持递归加锁，也就是说即便在同一线程中，也必须等待锁释放。通常建议改用 RLock，它会处理 &quot;owning thread&quot; 和 &quot;recursion level&quot; 状态，对于同一线程的多次请求锁行为，只累加计数器。每次调用 release() 将递减该计数器，直到 0 时释放锁，因此 acquire() 和 release() 必须要成对出现。</p>
+<p>threading 中的成员大多实现了上下文协议，尽可能用 with 代替手工调用。</p>
+<pre><code>&gt;&gt;&gt; lock = RLock()
+&gt;&gt;&gt; def show(i):
+...     with lock:     // 递归请求锁
+...         print currentThread().name, i
+...         sleep(0.1)
+&gt;&gt;&gt; def test():
+...     with lock:     // 加锁
+...         for i in range(5):
+...             show(i)
+&gt;&gt;&gt; for i in range(2):
+...     Thread(target = test).start()
+Thread-1 0
+Thread-1 1
+Thread-1 2
+Thread-1 3
+Thread-1 4
+Thread-2 0
+Thread-2 1
+Thread-2 2
+Thread-2 3
+Thread-2 4</code></pre>
+<h3>Event</h3>
+<p>Event 通过通过一个内部标记来协调多线程运行。方法 wait() 阻塞线程执行，直到标记为 True。set() 将标记设为 True，clear() 更改标记为 False。isSet() 用于判断标记状态。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     e = Event()
+...     def test():
+...         for i in range(5):
+...             e.wait()
+...             e.clear()
+...             print i
+...
+...     Thread(target = test).start()
+...     return e
+&gt;&gt;&gt; e = test()
+&gt;&gt;&gt; e.set()
+0
+&gt;&gt;&gt; e.set()
+1</code></pre>
+<p>如果不调用 clear()，那么标记一直为 True，wait() 就不会发生阻塞行为。</p>
+<p>在实际编程中，我们通常为每个线程准备一个独立的 Event，而不是多个线程共享，以避免未及时调用 clear() 时发生意外情况。</p>
+<h3>Condition</h3>
+<p>Condition 像 Lock 和 Event 的综合体，除基本的锁操作外，还提供了类似 yield 的功能。在获取锁以后，可以调用 wait() 临时让出锁，当前线程被阻塞，直到 notify() 发送通知后再次请求锁来恢复执行。将 wait 当做 yield，那么 notify 就是 send。</p>
+<p>可以将已有的锁对象传给 Condition。</p>
+<pre><code>&gt;&gt;&gt; def t1():
+...     with cond:
+...         for i in range(5):
+...             print currentThread().name, i
+...             sleep(0.1)
+...             if i == 3: cond.wait()
+&gt;&gt;&gt; def t2():
+...     with cond:
+...         for i in range(5):
+...             print currentThread().name, i
+...             sleep(0.1)
+...         cond.notify()
+&gt;&gt;&gt; Thread(target = t1).start(); Thread(target = t2).start()
+Thread-1 0
+Thread-1 1
+Thread-1 2
+Thread-1 3   // 让出锁
+Thread-2 0
+Thread-2 1
+Thread-2 2
+Thread-2 3
+Thread-2 4
+Thread-1 4   // 重新获取锁，继续执行。</code></pre>
+<p>只有获取锁的线程才能调用 wait() 和 notify()，因此必须在锁释放前调用。</p>
+<p>当 wait() 释放锁后，其他线程也可进入 wait 状态。notifyAll() 激活所有等待线程，让它们去抢锁然后完成后续执行。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     with cond:
+...         for i in range(5):
+...         print currentThread().name, i
+...         sleep(0.1)
+...         if i == 2: cond.wait()
+&gt;&gt;&gt; Thread(target = t1).start(); Thread(target = t1).start()
+Thread-1 0
+Thread-1 1
+Thread-1 2     // Thread-1: 等待
+Thread-2 0
+Thread-2 1
+Thread-2 2     // Thread-2: 等待
+&gt;&gt;&gt; with cond: cond.notifyAll()  // 通知所有 cond.wait 线程。
+Thread-2 3     // Thread-1 和 Thread-2 再次抢锁以完成后续执行，
+Thread-2 4     // 至于谁先抢到，就不好说了。
+Thread-1 3
+Thread-1 4</code></pre>
+<h3>Semaphore</h3>
+<p>Semaphore 通过一个计数器来限制可同时运行的线程数量。计数器表示还可以运行的线程数量，acquire() 递减计数器，release() 则是增加计数器。</p>
+<pre><code>&gt;&gt;&gt; sem = Semaphore(2)
+&gt;&gt;&gt; def test():
+...     with sem:
+...         for i in range(5):
+...             print currentThread().name, i
+...             sleep(0.1)
+&gt;&gt;&gt; for i in range(3):
+...     Thread(target = test).start()
+Thread-1 0   // 1 和 2 同时执行。因为计数器为 0，所以 3 被阻塞。
+Thread-2 0
+Thread-1 1
+Thread-2 1
+Thread-1 2
+Thread-2 2
+Thread-1 3
+Thread-2 3
+Thread-1 4
+Thread-2 4
+Thread-3 0   // 1 和 2 释放信号量，3 开始执行。
+Thread-3 1
+Thread-3 2
+Thread-3 3
+Thread-3 4</code></pre>
+<h3>Timer</h3>
+<p>用一个独立线程在 n 秒后执行某个函数。如定时器尚未执行，可用 cancel() 取消，定时器仅执行一次。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     print datetime.datetime.now()
+&gt;&gt;&gt; Timer(2, test).start()
+2013-03-26 11:06:19.840455</code></pre>
+<h3>Local</h3>
+<p>TLS (thread-local storage) 为线程提供独立的存储空间。</p>
+<pre><code>&gt;&gt;&gt; data = local()
+&gt;&gt;&gt; def test(fn, x):
+...     data.x = x
+...     for i in range(5):
+...         data.x = fn(data.x)
+...         print currentThread().name, data.x
+...         sleep(0.1)
+&gt;&gt;&gt; t1 = (lambda x: x + 1, 0)
+&gt;&gt;&gt; t2 = (lambda x: x + "a", "a")
+&gt;&gt;&gt; for d in (t1, t2):
+...     Thread(target = test, args = d).start()
+Thread-1 1
+Thread-2 aa
+Thread-2 aaa
+Thread-1 2
+Thread-2 aaaa
+Thread-1 3
+Thread-2 aaaaa
+Thread-1 4
+Thread-1 5
+Thread-2 aaaaaa</code></pre>
+<h2 id="7d16d5f74fcafb1de1680fe3e95caee9">multiprocessing</h2>
+<p>看上去和 threading 类似，区别在于用进程代替线程。这是规避 GIL，实现多核并发的常用方法。</p>
+<h3>Process</h3>
+<p>创建子进程执行指定函数。</p>
+<pre><code>from multiprocessing import Process, current_process
+def test(*args, **kwargs):
+    p = current_process()
+    print p.name, p.pid
+    print args
+    print kwargs
+if __name__ == "__main__":
+    p = Process(target=test, args=(1, 2), kwargs = {"a": "hello"}, name = "TEST")
+    p.start()
+    p.join()</code></pre>
+<p>输出:</p>
+<pre><code>TEST, 2570
+(1, 2)
+{'a': 'hello'}</code></pre>
+<p>方法 start() 创建子进程，然后在新进程中通过 run() 执行目标函数。构建参数 args、kwargs 会传递给目标函数。在父进程中用 join() 等待并获取子进程退出状态，否则会留下僵尸进程，除非父进程先终止。</p>
+<p>从下例输出结果，可以看到 <strong>init</strong>() 在父进程执行，但 run() 已经是子进程了。</p>
+<pre><code>class MyProcess(Process):
+    def __init__(self):
+        print "init:", os.getpid()
+        super(MyProcess, self).__init__()
+    def run(self):
+        print "run:", os.getpid()
+if __name__ == "__main__":
+    print "parent:", os.getpid()
+    p = MyProcess()
+    p.start()
+    p.join()</code></pre>
+<p>输出:</p>
+<pre><code>parent: 12093
+init: 12093
+run: 12094</code></pre>
+<p>子进程不会调用退出函数，而且只有后台 (daemon) 进程才可捕获主进程退出信号，默认处理自然是终止子进程。另外，后台进程不能创建新的子进程，这将导致僵尸出现。</p>
+<pre><code>from os import getpid
+from time import sleep
+from signal import signal, SIGTERM
+from multiprocessing import Process
+def test():
+    def handler(signum, frame):
+        print "child exit.", getpid()
+        exit(0)
+    signal(SIGTERM, handler)
+    print "child start:", getpid()
+    while True: sleep(1)
+if __name__ == "__main__":
+    p = Process(target = test)
+    p.daemon = True   # 必须在 start() 前设置。
+    p.start()
+    sleep(2)    # 给点时间让子进程进入 "状态"。
+    print "parent exit."</code></pre>
+<p>输出:</p>
+<pre><code>child start: 12185
+parent exit.
+child exit. 12185</code></pre>
+<p>调用 terminate() 会立即强制终止子进程 (不会执行任何清理操作)。有关状态还有: is_alive()、pid、exitcode。</p>
+<h3>Pool</h3>
+<p>进程池。用多个可重复使用的后台 (daemon) 进程执行函数，默认数量和 CPU 核相等。</p>
+<pre><code>from multiprocessing import Pool
+def test(*args, **kwargs):
+    print args
+    print kwargs
+    return 123
+if __name__ == "__main__":
+    pool = Pool()
+    print pool.apply(test, range(3), dict(a=1, b=2))
+    pool.close()
+    pool.join()</code></pre>
+<p>输出:</p>
+<pre><code>(0, 1, 2)
+{'a': 1, 'b': 2}
+123</code></pre>
+<p>调用 join() 等待所有工作进程结束前，必须确保用 close() 或 terminate() 关闭进程池。close() 阻止提交新任务，通知工作进程在完成全部任务后结束。该方法立即返回，不会阻塞等待。</p>
+<p>使用异步模型时，callback 是可选的。</p>
+<pre><code>from multiprocessing import Pool
+from time import sleep
+def test(*args, **kwargs):
+    sleep(2)
+    return 123
+def callback(ret):
+    sleep(2)
+    print "return:", ret
+if __name__ == "__main__":
+    pool = Pool()
+    pool.apply_async(test, callback=callback)
+    ar = pool.apply_async(test)
+    print ar.get()
+    pool.close()
+    pool.join()</code></pre>
+<p>apply_async 返回 AsyncResult 实例，其 get([timeout])、wait()、successful() 等方法可获知任务执行状态和结果。</p>
+<p>map() 和 imap() 用于批量执行，分别返回列表和迭代器结果。</p>
+<pre><code>from multiprocessing import Pool, current_process
+def test(x):
+    print current_process().pid, x
+    return x + 100
+def test2(s):
+    print current_process().pid, s
+if __name__ == "__main__":
+    pool = Pool(3)
+    print pool.map(test, xrange(5))
+    pool.map(test2, "abc")</code></pre>
+<p>输出:</p>
+<pre><code>1566 0
+1567 1
+1566 3
+1568 2
+1567 4
+[100, 101, 102, 103, 104]
+1566 a
+1568 b
+1567 c</code></pre>
+<p>参数 chunksize 指定数据分块大小，如果待处理数据量很大，建议调高该参数。</p>
+<pre><code>if __name__ == "__main__":
+    pool = Pool(3)
+    print pool.map(test, xrange(10), chunksize=2)</code></pre>
+<p>输出:</p>
+<pre><code>1585 0    # 实际输出顺序可能不同。
+1585 1
+1586 2
+1586 3
+1587 4
+1587 5
+1585 6
+1585 7
+1586 8
+1586 9
+[100, 101, 102, 103, 104, 105, 106, 107, 108, 109]</code></pre>
+<h3>Queue</h3>
+<p>Queue 是最常用的数据交换方法。参数 maxsize 限制队列中的数据项数量，这会影响 get/put 等阻塞操作。默认值无限制。</p>
+<p>通常直接使用 JoinableQueue，其内部使用 Semaphore 进行协调。在执行 put()、task_done()时调整信号量计数器。当 task_done() 发现计数值等于 0，立即通知 join() 解除阻塞。</p>
+<pre><code>from Queue import Empty
+from multiprocessing import Process, current_process, JoinableQueue
+def test(q):
+    pid = current_process().pid
+    while True:
+        try:
+        d = q.get(timeout=2)   # 阻塞 + 超时。照顾生产者未及生产情形。
+        print pid, d
+        q.task_done()
+    except Empty:
+        print pid, "empty"
+        break
+if __name__ == "__main__":
+    q = JoinableQueue(maxsize=1000)
+    map(q.put, range(5))     # 未超出队列容量限制，不会阻塞。
+    print "put over"
+    for i in range(3):      # 创建多个 consumer。
+        Process(target=test, args=(q,)).start()
+    q.join()       # 等待任务完成。
+    print "task done"</code></pre>
+<p>输出:</p>
+<pre><code>put over
+2127 0
+2127 1
+2127 2
+2127 3
+2127 4
+task done
+2127 empty
+2128 empty
+2129 empty</code></pre>
+<p>或许你会考虑压入同等数量的 None 作为结束标志，但无法保证每个 Consumer 都能获取。</p>
+<h2 id="244e616bef13bfad9026494efb521eb5">argparse</h2>
+<p>命令行参数解析模块。原 optparse 已经停止开发，建议替换为 argparse。</p>
+<h3>parser</h3>
+<p>ArgumentParser 默认解析来源 sys.argv，也可提供显式参数进行解析。</p>
+<p>构造参数中，通常只需关心 description 和 epilog。前者显示程序标题，后者在帮助信息的尾部显示详细的版权、使用描述等。</p>
+<pre><code>&gt;&gt;&gt; from argparse import ArgumentParser
+&gt;&gt;&gt; parser = ArgumentParser(description="Test Program", epilog="author:qyuhen")
+&gt;&gt;&gt; parser.add_argument("-x", help="xxx...")
+&gt;&gt;&gt; parser.print_help()
+usage: ipython [-h] [-x X]
+Test Program
+optional arguments:
+-h, --help show this help message and exit
+-x X xxx...
+author:qyuhen</code></pre>
+<p>方法 parse_args 显式列表参数可用 string.split 或 shlex.split 分解。</p>
+<pre><code>&gt;&gt;&gt; args = parser.parse_args("-x 123".split())
+&gt;&gt;&gt; args
+Namespace(x='123')</code></pre>
+<h3>argument</h3>
+<p>参数分为可选参数 (optional) 和 位置参数 (positional) 两种，前者用指定前缀 (默认是 &quot;-&quot;) 标识。</p>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-name", help="name...")
+&gt;&gt;&gt; parser.add_argument("x", help="x...")
+&gt;&gt;&gt; parser.print_help()
+usage: ipython [-h] [-name NAME] x
+positional arguments:
+x x...
+optional arguments:
+    -h, --help show this help message and exit
+    -name NAME name...
+&gt;&gt;&gt; parser.parse_args("-name q.yuhen 123".split())
+Namespace(name='q.yuhen', x='123')</code></pre>
+<p>可选参数名可以有多个，键值间可以有 &quot;=&quot;，而且单字符名称的参数键值可以合并。</p>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('-x', "-XX")
+&gt;&gt;&gt; parser.print_help()
+usage: ipython [-h] [-x X]
+optional arguments:
+    -h, --help show this help message and exit
+    -x X, -XX X
+&gt;&gt;&gt; parser.parse_args("-x 100".split()) # 普通方式
+Namespace(x='100')
+&gt;&gt;&gt; parser.parse_args("-x=100".split()) # 使用等号
+Namespace(x='100')
+&gt;&gt;&gt; parser.parse_args("-x100".split())  # 合并键值
+Namespace(x='100')
+&gt;&gt;&gt; parser.parse_args("-XX 100".split()) # 其他名称
+Namespace(x='100')
+&gt;&gt;&gt; parser.parse_args("-XX100".split()) # 仅单字符名可以合并
+error: unrecognized arguments: -XX100</code></pre>
+<p>如果参数值是包含空格的字符串，注意用引号或转义处理。</p>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-s")
+&gt;&gt;&gt; parser.parse_args(shlex.split("-s='a b c'")) # 不能用 string.split()
+Namespace(s='a b c')
+&gt;&gt;&gt; parser.parse_args(shlex.split("-s=a\ b\ c"))
+Namespace(s='a b c')</code></pre>
+<p>可选参数默认返回 None，可用 default 参数或 parser.set_defaults 方法指定默认值。如果参数是必须的，只需设定 required=True 即可。</p>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-x", default=123)
+&gt;&gt;&gt; parser.add_argument("-y", required=True)
+&gt;&gt;&gt; parser.parse_args()
+error: argument -y is required
+&gt;&gt;&gt; parser.parse_args("-y abc".split())
+Namespace(x=123, y='abc')</code></pre>
+<p>除非用 dest 指定值存储名称，否则和参数名相同。metavar 用于修改参数值显示标记，默认使用 dest 大写名称。metavar 不会影响 dest 设置。</p>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-n", dest="name")
+&gt;&gt;&gt; parser.add_argument("-x", dest="x", metavar="value")
+&gt;&gt;&gt; parser.print_help()
+usage: ipython [-h] [-n NAME] [-x value]
+optional arguments:
+    -h, --help show this help message and exit
+    -n NAME
+    -x value
+&gt;&gt;&gt; parser.parse_args("-n q.yuhen -x 123".split())
+Namespace(name='q.yuhen', x='123')</code></pre>
+<p>type 参数用于指定值转换函数，比如内置函数 int、float、file，也可以自定义函数。</p>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-x", type=int)
+&gt;&gt;&gt; parser.add_argument("-s", type=lambda s: "s:"+s)
+&gt;&gt;&gt; parser.parse_args("-x 123 -s abc".split())
+Namespace(s='s:abc', x=123)</code></pre>
+<p>nargs 指示参数值数量，默认为 1。除具体的数字外，还可以使用通配符。</p>
+<ul>
+<li>: 0 或 1。</li>
+<li>*: 0 或 N。</li>
+<li>+: 1 或 N。</li>
+<li>REMAINDER: 所有剩下的值。</li>
+</ul>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-x", nargs="+")
+&gt;&gt;&gt; parser.add_argument("-y", nargs="")
+&gt;&gt;&gt; parser.add_argument("n", nargs=2)
+&gt;&gt;&gt; parser.add_argument("args", nargs=REMAINDER)
+&gt;&gt;&gt; parser.print_help()
+usage: ipython [-h] [-x X [X ...]] [-y [Y]] n n ...
+positional arguments:
+    n
+    args
+optional arguments:
+    -h, --help show this help message and exit
+    -x X [X ...]
+    -y [Y]
+&gt;&gt;&gt; parser.parse_args("-x x1 x2 -y y1 1 2 a b c -xxx".split())
+Namespace(args=['a', 'b', 'c', '-xxx'], n=['1', '2'], x=['x1', 'x2'], y='y1')</code></pre>
+<p>action 用于指定参数取值行为。</p>
+<ul>
+<li>store: 默认，仅存储。</li>
+<li>store_const: 返回 const 或 default 值。</li>
+<li>store_true/store_false: 返回 True 或 False。</li>
+<li>append: 合并多个同名参数值。</li>
+<li>append_const: 合并多个不同名参数的 const 值，注意这些参数的 dest 必须相同。</li>
+<li>count: 统计参数名出现的次数，常见的就是 -vvvv 这样表示 level 的参数。</li>
+<li>version: 版本信息.</li>
+</ul>
+<pre><code># 1. store_const: 提供参数时返回 const 值，否则返回 default。
+&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-x", action="store_const", const=100)
+&gt;&gt;&gt; parser.add_argument("-y", action="store_const", const=100, default=1)
+&gt;&gt;&gt; parser.parse_args("-x".split())
+Namespace(x=100, y=1)
+&gt;&gt;&gt; parser.parse_args("-x -y".split())
+Namespace(x=100, y=100)
+&gt;&gt;&gt; parser.parse_args()
+Namespace(x=None, y=1)</code></pre>
+<pre><code># 2. store_true/store_false: 显式返回指定布尔值，否则返回相反值。
+&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-x", action="store_true")
+&gt;&gt;&gt; parser.add_argument("-y", action="store_false")
+&gt;&gt;&gt; parser.parse_args("-x -y".split())
+Namespace(x=True, y=False)
+&gt;&gt;&gt; parser.parse_args()
+Namespace(x=False, y=True)</code></pre>
+<pre><code># 3. append: 将多个同名参数值合并成列表。
+&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-x", action="append")
+&gt;&gt;&gt; parser.parse_args("-x 1 -x 2".split())
+Namespace(x=['1', '2'])</code></pre>
+<pre><code># 4. append_const: 合并多个不同名参数 const 值，注意所有合并参数的 dest 相同。
+&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("-x", dest="numbers", action="append_const", const=1)
+&gt;&gt;&gt; parser.add_argument("-y", dest="numbers", action="append_const", const=2)
+&gt;&gt;&gt; parser.parse_args("-x -y".split())
+Namespace(numbers=[1, 2])</code></pre>
+<pre><code># 5. count: 通常用于统计 -vvv 这类 level 参数，只能是单字符名。
+&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument("--verbose", "-v", action="count")
+&gt;&gt;&gt; parser.parse_args("-vv".split())
+Namespace(v=2)</code></pre>
+<pre><code># 6. version: 显示版本信息。
+&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('--version', "-V", action='version', version='%(prog)s 2.0')
+&gt;&gt;&gt; parser.parse_args("--version".split())
+ipython 2.0</code></pre>
+<p>choices 用于指定参数取值范围。</p>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; parser.add_argument('-x', choices=range(1, 5), type=int)
+&gt;&gt;&gt; parser.add_argument('-s', choices=("a", "b"))
+&gt;&gt;&gt; parser.print_help()
+usage: ipython [-h] [-x {1,2,3,4}] [-s {a,b}]
+optional arguments:
+    -h, --help show this help message and exit
+    -x {1,2,3,4}
+    -s {a,b}
+&gt;&gt;&gt; parser.parse_args("-x 2 -s a".split())
+Namespace(s='a', x=2)
+&gt;&gt;&gt; parser.parse_args("-x 6".split())
+error: argument -x: invalid choice: 6 (choose from 1, 2, 3, 4)
+&gt;&gt;&gt; parser.parse_args("-s abc".split())
+error: argument -s: invalid choice: 'abc' (choose from 'a', 'b')</code></pre>
+<h3>group</h3>
+<p>如果参数较多，分组显示更便于查看。</p>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; group1 = parser.add_argument_group("group1", "group1 description...")
+&gt;&gt;&gt; group1.add_argument("x", help="xxx...")
+&gt;&gt;&gt; group2 = parser.add_argument_group("group2", "group2 description...")
+&gt;&gt;&gt; group2.add_argument("y", help="yyy...")
+&gt;&gt;&gt; group2.add_argument("z", help="zzz...")
+&gt;&gt;&gt; parser.print_help()
+usage: ipython [-h] x y z
+optional arguments:
+    -h, --help show this help message and exit
+group1:
+    group1 description...
+    x           xxx...
+group2:
+    group2 description...
+    y           yyy...
+    z           zzz...</code></pre>
+<p>组的另外一个作用就是互斥，仅允许组中的一个参数出现。可对组设置 required=True。</p>
+<pre><code>&gt;&gt;&gt; parser = ArgumentParser()
+&gt;&gt;&gt; group = parser.add_mutually_exclusive_group(required=True)
+&gt;&gt;&gt; group.add_argument("-x")
+&gt;&gt;&gt; group.add_argument("-y")
+&gt;&gt;&gt; parser.print_help()
+usage: ipython [-h] (-x X | -y Y)
+optional arguments:
+    -h, --help show this help message and exit
+    -x X
+    -y Y
+&gt;&gt;&gt; parser.parse_args("-x 100 -y 200".split())
+error: argument -y: not allowed with argument -x
+&gt;&gt;&gt; parser.parse_args("-x 100".split())
+Namespace(x='100', y=None)
+&gt;&gt;&gt; parser.parse_args("-y 200".split())
+Namespace(x=None, y='200')</code></pre>
+<h2 id="a5c6a6af9cd35b0eaf1882edf1d286e0">ctypes</h2>
+<p>标准库 ctypes 模块可以非常方便地调用动态库 (.so)，这有助于解决安全和性能问题。</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+int add(int x, int y)
+{
+    return x + y;
+}
+void inc(int* x)
+{
+    *x += 1;
+}
+void cprint(char* s)
+{
+    printf("%s: %s\n", __func__, s);
+}</code></pre>
+<p>编译:</p>
+<pre><code>$ gcc -fPIC -shared -o test.so test.c</code></pre>
+<p>测试:</p>
+<pre><code>&gt;&gt;&gt; from ctypes import *
+&gt;&gt;&gt; so = cdll.LoadLibrary("./test.so")
+&gt;&gt;&gt; so.add(10, 20)
+30
+&gt;&gt;&gt; so.cprint("Hello, World")
+cprint: Hello, World
+22
+&gt;&gt;&gt; x = c_int(123)
+&gt;&gt;&gt; so.inc(byref(x))    # 传入指针
+124
+&gt;&gt;&gt; x
+c_int(124)</code></pre>
+<p>当然也可以直接调用系统库的函数。</p>
+<pre><code>&gt;&gt;&gt; libc = cdll.LoadLibrary("libc.dylib") # Linux: libc.so.6
+&gt;&gt;&gt; libc.printf("Hi\n")
+Hi
+4
+&gt;&gt;&gt; import time
+&gt;&gt;&gt; time.time(), libc.time()
+(1364284691.803043, 1364284691)</code></pre></div>
+		<div class="previous-and-next">
+						<span class="pull-left">上一篇: <a id="previous_link" href="data-stored.html" data-toggle="tooltip" data-placement="top" title="上翻页快捷键：左方向键">数据存储</a></span>
+			
+						<span class="pull-right">下一篇: <a id="next_link" href="process-communication.html" data-toggle="tooltip" data-placement="top" title="下翻页快捷键：右方向键">进程通信</a></span>
+					</div>
+				<div id="jkcomments"></div>
+			</div>
+	<div class="wiki-right fl">
+		<div id="myScrollspy">
+						<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="300">
+							<li><a href="#07cc694b9b3fc636710fa08b6922c42b">time</a></li>
+							<li><a href="#b180e860a2a9deea961d1cdba245f0ac">threading</a></li>
+							<li><a href="#7d16d5f74fcafb1de1680fe3e95caee9">multiprocessing</a></li>
+							<li><a href="#244e616bef13bfad9026494efb521eb5">argparse</a></li>
+							<li><a href="#a5c6a6af9cd35b0eaf1882edf1d286e0">ctypes</a></li>
+						</ul>
+					</div>
+		<div class="backtotop">
+			<a href="javascript:;" class="btn-backtotop" style="display: none;"><div class="arrow"></div><div class="stick"></div></a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</div>
+</body>
+</html>

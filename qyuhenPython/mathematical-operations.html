@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+			<meta name="keywords" content="数学运算,Python 学习笔记,Python教程">
+		
+			<meta name="description" content="伪随机数生成模块。如果不提供seed，默认使用系统时间。使用相同seed，可获得相同的随机数序列，常用于测试。生成sta...">
+		
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta content=always name=referrer>
+	<link rel="stylesheet" href="stylesheets/page_article.min.333ba298.css">
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script>
+		<title>数学运算 - Python 学习笔记</title>
+	</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="article-header">
+	<div class="container article-container">
+		<span class="title"><a href="">Python 学习笔记</a></span>
+	</div>
+</div>
+<div class="container article-container">
+	<div class="left fl " data-offset-top="300">
+		<div class="left_title"><a class="" href="">刷新页面</a></div>
+		<div class="left_line"></div>
+		<div class="left_title">
+		<p>第一部分 Python 语言</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="basic-environment.html">基本环境</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="index.html">内置类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="expression.html">表达式</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="function.html">函数</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="iterator.html">迭代器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="module.html">模块</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="class.html">类</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="abnormal.html">异常</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="decorator.html">装饰器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="descriptor.html">描述符</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="metaclass.html">元类</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<p>第二部分 标准库</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="string.html">字符串</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-type.html">数据类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=" active "  href="mathematical-operations.html">数学运算</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="files-and-directories.html">文件与目录</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-stored.html">数据存储</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="operating-system.html">操作系统</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="process-communication.html">进程通信</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="application-framework.html">程序框架</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="extended-library.html">第三部分 扩展库</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="appendix.html">附录</a>
+		</div>
+	</div>
+	<div class="main fl">
+		<div class="markdown-body"><h1>数学运算</h1>
+<h2 id="7ddf32e17a6ac5ce04a8ecbf782ca509">random</h2>
+<p>伪随机数生成模块。如果不提供 seed，默认使用系统时间。使用相同 seed，可获得相同的随机数序列，常用于测试。</p>
+<pre><code>&gt;&gt;&gt; from random import *
+&gt;&gt;&gt; a = Random(); a.seed(1)
+&gt;&gt;&gt; [a.randint(1, 100) for i in range(20)]
+[14, 85, 77, 26, 50, 45, 66, 79, 10, 3, 84, 44, 77, 1, 45, 73, 23, 95, 91, 4]
+&gt;&gt;&gt; b = Random(); b.seed(1)
+&gt;&gt;&gt; [b.randint(1, 100) for i in range(20)]
+[14, 85, 77, 26, 50, 45, 66, 79, 10, 3, 84, 44, 77, 1, 45, 73, 23, 95, 91, 4]</code></pre>
+<p><strong>使用示例</strong></p>
+<p>生成最大 N 个二进制位的长整数。</p>
+<pre><code>&gt;&gt;&gt; getrandbits(5)
+29L
+&gt;&gt;&gt; bin(getrandbits(5))
+'0b11101'</code></pre>
+<p>生成 start &lt;= N &lt; stop 范围内的随机整数。</p>
+<pre><code>&gt;&gt;&gt; randrange(1, 10)
+2
+&gt;&gt;&gt; randrange(1, 10, 3)   # 支持步进
+4
+&gt;&gt;&gt; randrange(1, 10, 3)
+1
+&gt;&gt;&gt; randrange(1, 10, 3)
+7</code></pre>
+<p>生成 a &lt;= N &lt;= b 范围内的整数。</p>
+<pre><code>&gt;&gt;&gt; randint(1, 10)
+5</code></pre>
+<p>从序列中随机返回元素。</p>
+<pre><code>&gt;&gt;&gt; import string
+&gt;&gt;&gt; string.digits
+'0123456789'
+&gt;&gt;&gt; choice(string.digits)
+'6'
+&gt;&gt;&gt; choice(string.digits)
+'1'
+&gt;&gt;&gt; choice(string.digits)
+'3'</code></pre>
+<p>打乱序列，随机洗牌。</p>
+<pre><code>&gt;&gt;&gt; a = range(10)
+&gt;&gt;&gt; shuffle(a)
+&gt;&gt;&gt; a
+[6, 4, 8, 7, 5, 3, 0, 9, 2, 1]</code></pre>
+<p>从序列中随机挑选 n 个不同元素组合成列表。</p>
+<pre><code>&gt;&gt;&gt; string.letters
+'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+&gt;&gt;&gt; sample(string.letters, 10)
+['I', 'F', 'W', 'O', 'r', 'o', 'A', 'K', 'i', 'h']
+&gt;&gt;&gt; "".join(sample(string.letters, 10))  # 生成指定长度的随机字符串很容易
+'kMmSgPVWIi'
+&gt;&gt;&gt; "".join(sample(string.letters, 10))
+'feCTyRZrHv'</code></pre>
+<p>生成 0.0 &lt;= N &lt; 1 的随机浮点数。</p>
+<pre><code>&gt;&gt;&gt; random()
+0.39559451765020448
+&gt;&gt;&gt; random()
+0.62378508101496177</code></pre>
+<p>生成 min &lt;= N &lt;= max 范围内的随机浮点数。</p>
+<pre><code>&gt;&gt;&gt; uniform(1, 10)
+7.6889886379206587
+&gt;&gt;&gt; uniform(10, 1)
+5.1617099528426609</code></pre>
+<p>该模块还支持三角、β分布、指数分布、伽马分布、高斯分布等非常专业的随机算法。</p></div>
+		<div class="previous-and-next">
+						<span class="pull-left">上一篇: <a id="previous_link" href="data-type.html" data-toggle="tooltip" data-placement="top" title="上翻页快捷键：左方向键">数据类型</a></span>
+			
+						<span class="pull-right">下一篇: <a id="next_link" href="files-and-directories.html" data-toggle="tooltip" data-placement="top" title="下翻页快捷键：右方向键">文件与目录</a></span>
+					</div>
+				<div id="jkcomments"></div>
+			</div>
+	<div class="wiki-right fl">
+		<div id="myScrollspy">
+						<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="300">
+							<li><a href="#7ddf32e17a6ac5ce04a8ecbf782ca509">random</a></li>
+						</ul>
+					</div>
+		<div class="backtotop">
+			<a href="javascript:;" class="btn-backtotop" style="display: none;"><div class="arrow"></div><div class="stick"></div></a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</div>
+</body>
+</html>

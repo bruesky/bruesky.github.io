@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+			<meta name="keywords" content="第三部分 扩展库,Python 学习笔记,Python教程">
+		
+			<meta name="description" content="通过SSH进行软件部署或系统管理。设置在连接目标主机之前，必须提供足够的配置信息。env.hosts:目标主机列表。格式...">
+		
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta content=always name=referrer>
+	<link rel="stylesheet" href="stylesheets/page_article.min.333ba298.css">
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script>
+		<title>第三部分 扩展库 - Python 学习笔记</title>
+	</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="article-header">
+	<div class="container article-container">
+		<span class="title"><a href="">Python 学习笔记</a></span>
+	</div>
+</div>
+<div class="container article-container">
+	<div class="left fl " data-offset-top="300">
+		<div class="left_title"><a class="" href="">刷新页面</a></div>
+		<div class="left_line"></div>
+		<div class="left_title">
+		<p>第一部分 Python 语言</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="basic-environment.html">基本环境</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="index.html">内置类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="expression.html">表达式</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="function.html">函数</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="iterator.html">迭代器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="module.html">模块</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="class.html">类</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="abnormal.html">异常</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="decorator.html">装饰器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="descriptor.html">描述符</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="metaclass.html">元类</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<p>第二部分 标准库</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="string.html">字符串</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-type.html">数据类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="mathematical-operations.html">数学运算</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="files-and-directories.html">文件与目录</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-stored.html">数据存储</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="operating-system.html">操作系统</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="process-communication.html">进程通信</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="application-framework.html">程序框架</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=" active "  href="extended-library.html">第三部分 扩展库</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="appendix.html">附录</a>
+		</div>
+	</div>
+	<div class="main fl">
+		<div class="markdown-body"><h1>第三部分 扩展库</h1>
+<h1>A. Fabric</h1>
+<p>通过 SSH 进行软件部署或系统管理。</p>
+<p><strong>设置</strong></p>
+<p>在连接目标主机之前，必须提供足够的配置信息。</p>
+<ul>
+<li>env.hosts: 目标主机列表。格式: ip, user@ip, user@ip:port。</li>
+<li>env.host_string: 单机，格式同 hosts。</li>
+<li>env.roledefs: 按角色定义主机列表。格式: {name:[host, ...]}。</li>
+<li>env.passwords: 主机密码字典。格式: {host: password}，和 hosts 中保持格式一致。</li>
+<li>env.user: 默认用户名。</li>
+<li>env.port: 默认端口。</li>
+<li>env.password: 默认密码。</li>
+<li>env.parallel: 是否并行执行任务。</li>
+<li>env.skip_bad_hosts: 是否跳过无法连接的主机。</li>
+<li>env.timeout: 连接超时，默认 10 秒。</li>
+<li>env.warn_only: 出错时是否仅显示警告信息。默认 False 终止任务。</li>
+</ul>
+<p><strong>任务</strong></p>
+<p>任务就是些普通函数，可以直接用 execute 执行，或在命令行调用。</p>
+<ul>
+<li>默认: 所有 env.hosts 或 host_string。</li>
+<li>主机: host 单主机，host 多主机列表。</li>
+<li>角色: role 单个角色，roles 多个角色名列表。</li>
+</ul>
+<p>也可用装饰器设置这些参数。另外，最好显式关闭连接。</p>
+<pre><code>from fabric.api import *
+from fabric.network import *
+def rcmd(s): run(s)
+env.user = "root"
+env.password = "123456"
+env.hosts = ["192.168.1.1", "192.168.1.2", "192.168.1.3"]
+env.roledefs = {"A": ["192.168.1.1", "192.168.1.2"], "B":["192.168.1.3"] }
+try:
+    execute(rcmd, "uname -a", roles = ["A", "B"])
+finally:
+    disconnect_all()</code></pre>
+<p><strong>颜色</strong></p>
+<p>fabric.colors 提供了一些颜色包装函数，可配合 print 显示一些需要特别注意的信息。</p>
+<pre><code>from fabric.colors import *
+print(green("This text is green"))</code></pre>
+<p><strong>上下文</strong></p>
+<p>fabric.context_managers 为命令提供区域设置。</p>
+<ul>
+<li>cd: 切换主机工作目录。</li>
+<li>lcd: 切换本地目录。</li>
+<li>hide: 隐藏输出信息。</li>
+<li>quiet: 安静模式，hide('everything'), warn_only=True。</li>
+<li>path: 修改 PATH 环境变量，可选 append 或 prepend。</li>
+</ul>
+<p>切换到合适的工作目录，减少命令行输入。</p>
+<pre><code>with cd("/etc"):
+run("pwd")   # /etc
+with cd ("init.d"):
+run("pwd")   # /etc/init.d</code></pre>
+<p><strong>操作</strong></p>
+<p>fabric.operations 包含用于任务的一些命令。</p>
+<ul>
+<li>get: 下载文件。</li>
+<li>put: 上传文件。</li>
+<li>run: 运行远程命令。</li>
+<li>sudo: 以超级用户执行命令。</li>
+<li>local: 运行本地命令。</li>
+<li>prompt: 用户输入。</li>
+<li>open_shell: 远程交互式环境。</li>
+<li>reboot: 重启主机。</li>
+</ul>
+<p>最常用的是 run 命令，它执行远程命令，返回输出结果字符串。该字符串对象还有 failed、succeeded、 return_code、command、real_command 等属性用来检查运行结果。</p>
+<pre><code>out = run("uname -a")
+print out.succeeded, out.failed, out.return_code
+print out.command, out.real_command</code></pre>
+<p><strong>其他</strong></p>
+<p>fabric.utils 提供了一些辅助操作。</p>
+<ul>
+<li>abort: 引发异常，终止任务执行。</li>
+<li>warn: 显示警告信息，但不终止。</li>
+<li>indent: 获取一个缩进字符串。</li>
+<li>fastprint, puts: 显示信息。</li>
+</ul>
+<p>fabric.contrib.console 提供 confirm 函数，让用户输入 [Y/n] 确认信息。</p>
+<pre><code>if confirm("Continue", default = False):
+    out = run("uname -a")</code></pre>
+<p>fabric.contrib.files 提供了远程文件操作功能。</p>
+<ul>
+<li>append: 添加信息。</li>
+<li>comment: 按条件注释掉某些内容。</li>
+<li>contains: 是否包含特定内容。</li>
+<li>exists: 路径是否存在。</li>
+</ul>
+<p>问题</p>
+<p>(1) 对后台运行命令 nohup 支持不好，可以考虑用 screen、pexpect 等代替。</p>
+<pre><code>$ screen -d -m -S &lt;session_name&gt; [cmd args]; sleep 5</code></pre>
+<p>注意用 sleep 暂停，避免 screen 尚未运行，会话就结束。</p>
+<p>(2) 用 open_shell 进入交互模式，Ctrl+C 导致 fabric 进程退出，而不是远程进程。#</p></div>
+		<div class="previous-and-next">
+						<span class="pull-left">上一篇: <a id="previous_link" href="application-framework.html" data-toggle="tooltip" data-placement="top" title="上翻页快捷键：左方向键">程序框架</a></span>
+			
+						<span class="pull-right">下一篇: <a id="next_link" href="appendix.html" data-toggle="tooltip" data-placement="top" title="下翻页快捷键：右方向键">附录</a></span>
+					</div>
+				<div id="jkcomments"></div>
+			</div>
+	<div class="wiki-right fl">
+		<div id="myScrollspy">
+					</div>
+		<div class="backtotop">
+			<a href="javascript:;" class="btn-backtotop" style="display: none;"><div class="arrow"></div><div class="stick"></div></a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</div>
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script
+</body>
+</html>

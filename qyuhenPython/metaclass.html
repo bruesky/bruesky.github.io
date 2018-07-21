@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+			<meta name="keywords" content="元类,Python 学习笔记,Python教程">
+		
+			<meta name="description" content="类型对象地位超然，负责创建对象实例，控制对象行为(方法)。那么类型对象又由谁来创建呢？&mdash;&mdash;元类(metaclass)，也...">
+		
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta content=always name=referrer>
+	<link rel="stylesheet" href="stylesheets/page_article.min.333ba298.css">
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script>
+		<title>元类 - Python 学习笔记</title>
+	</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="article-header">
+	<div class="container article-container">
+		<span class="title"><a href="">Python 学习笔记</a></span>
+	</div>
+</div>
+<div class="container article-container">
+	<div class="left fl " data-offset-top="300">
+		<div class="left_title"><a class="" href="">刷新页面</a></div>
+		<div class="left_line"></div>
+		<div class="left_title">
+		<p>第一部分 Python 语言</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="basic-environment.html">基本环境</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="index.html">内置类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="expression.html">表达式</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="function.html">函数</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="iterator.html">迭代器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="module.html">模块</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="class.html">类</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="abnormal.html">异常</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="decorator.html">装饰器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="descriptor.html">描述符</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=" active "  href="metaclass.html">元类</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<p>第二部分 标准库</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="string.html">字符串</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-type.html">数据类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="mathematical-operations.html">数学运算</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="files-and-directories.html">文件与目录</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-stored.html">数据存储</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="operating-system.html">操作系统</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="process-communication.html">进程通信</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="application-framework.html">程序框架</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="extended-library.html">第三部分 扩展库</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="appendix.html">附录</a>
+		</div>
+	</div>
+	<div class="main fl">
+		<div class="markdown-body"><h1>元类</h1>
+<p>类型对象地位超然，负责创建对象实例，控制对象行为 (方法)。那么类型对象又由谁来创建呢？—— 元类 (metaclass)，也就是类型的类型。</p>
+<p>New-Style Class 的默认元类是 type。</p>
+<pre><code>&gt;&gt;&gt; class Data(object): pass
+&gt;&gt;&gt; Data.__class__
+&lt;type 'type'&gt;
+&gt;&gt;&gt; type.__class__   # 最终的类型就是 type，包括 type 自己。
+&lt;type 'type'&gt;</code></pre>
+<p>关键字 class 会被编译成元类创建类型对象指令。</p>
+<pre><code>&gt;&gt;&gt; Data = type("Data", (object,), {"x": 1})  # class 的实际行为。
+&gt;&gt;&gt; Data.__class__
+&lt;type 'type'&gt;
+&gt;&gt;&gt; Data.__base__
+&lt;type 'object'&gt;
+&gt;&gt;&gt; Data.x
+1</code></pre>
+<p>正因为 class 和 def 一样是指令，我们可以在任何地方创建类型对象。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     class Data(object): pass
+...     return Data
+&gt;&gt;&gt; Data = test()
+&gt;&gt;&gt; Data.__name__
+'Data'
+&gt;&gt;&gt; type(Data)
+&lt;type 'type'&gt;
+&gt;&gt;&gt; Data()
+&lt;__main__.Data object at 0x10659f4d0&gt;</code></pre>
+<p>现在可以理清几者的关系，以及创建顺序了。</p>
+<pre><code>class = metaclass(...)   # 元类创建类型
+instance = class(...)   # 类型创建实例
+instance.__class__ is class  # 实例的类型
+class.__class__ is metaclass  # 类型的类型</code></pre>
+<p><strong><strong>metaclass</strong></strong></p>
+<p>除了使用默认元类 type 以外，还可以用 <strong>metaclass</strong> 属性指定自定义元类，以便对类型对象创建过程进行干预。</p>
+<pre><code>&gt;&gt;&gt; class InjectMeta(type):
+...     def __new__(cls, name, bases, attrs):
+...         t = type.__new__(cls, name, bases, attrs)
+...
+...     def print_id(self): print hex(id(self))
+...     t.print_id = print_id    # 为类型对象添加实例方法。
+...     t.s = "Hello, World"    # 添加静态字段。
+...
+...     return t
+&gt;&gt;&gt; class Data(object):
+...     __metaclass__ = InjectMeta    # 显式指定元类。
+&gt;&gt;&gt; Data.__metaclass__
+&lt;class '__main__.InjectMeta'&gt;
+&gt;&gt;&gt; Data.__class__
+&lt;class '__main__.InjectMeta'&gt;
+&gt;&gt;&gt; dir(Data)
+['__class__', ... 'print_id', 's']
+&gt;&gt;&gt; Data.s
+'Hello, World'
+&gt;&gt;&gt; Data().print_id()
+0x10659d850</code></pre>
+<p>自定义元类通常都从 type 继承，习惯以 Meta 结尾，就像抽象元类 abc.ABCMeta 那样。代码很简单，只需注意 <strong>new</strong> 和 <strong>init</strong> 方法参数的区别就行了。</p>
+<pre><code>&gt;&gt;&gt; class InjectMeta(type):
+...     def __new__(cls, name, bases, attrs):
+...         print "class:", cls      # cls = InjectMeta
+...         print "name:", name
+...         print "bases:", bases
+...         print "attrs:", attrs
+...         return type.__new__(cls, name, bases, attrs)
+...
+...     def __init__(cls, name, bases, attrs):
+...         print "class:", cls      # cls = Data
+...         type.__init__(cls, name, bases, attrs)
+&gt;&gt;&gt; class Data(object):
+...     __metaclass__ = InjectMeta     # 自定义元类
+...     x = 1
+...     def test(self): pass
+class: &lt;class '__main__.InjectMeta'&gt;
+name: Data
+bases: (&lt;type 'object'&gt;,)
+attrs: {
+        'test': &lt;function test at 0x1065370c8&gt;,
+        'x': 1,
+        '__module__': '__main__',
+        '__metaclass__': &lt;class '__main__.InjectMeta'&gt;
+}
+class: &lt;class '__main__.Data'&gt;</code></pre>
+<p>当解释器创建类型对象时，会按以下顺序查找 <strong>metaclass</strong> 属性。</p>
+<pre><code>class.__metaclass__ -&gt; bases.__metaclass__ -&gt; module.__metaclass__ -&gt; type</code></pre>
+<p>这也是为什么在模块中可以用 <strong>metaclass</strong> 为所有类型指定默认元类的缘故。</p>
+<p>虽然惯例将元类写成 type 的派生类，但也可以用函数代替。</p>
+<pre><code>&gt;&gt;&gt; def inject_meta(name, bases, attrs):
+...     t = type(name, bases, attrs)
+...     t.s = "Hello, World"
+...     return t
+&gt;&gt;&gt; class Data(object):
+...     __metaclass__ = inject_meta
+&gt;&gt;&gt; Data.__metaclass__
+&lt;unbound method Data.inject_meta&gt;
+&gt;&gt;&gt; Data.s
+'Hello, World'</code></pre>
+<p><strong>magic</strong></p>
+<p>对象行为由类型决定，实例不过存储了状态数据。那么，当我们控制了类型对象的创建，也就意味着可以让对象的实际行为和代码存在极大的差异。这是魔法的力量，也是 Python 核心开发人员 Tim Peters 说出下面这番话的原因 (想必你对他的 import this 很熟悉)。</p>
+<pre><code>Metaclasses are deeper magic than 99% of users should ever worry about. If you wonder whether you need them, you don't (the people who actually need them know with certainty that they need them, and don't need an explanation about why). Tim Peters (c.l.p post 2002-12-22)</code></pre>
+<p>试着写两个简单的例子练练手。</p>
+<p>静态类 (static class): 不允许创建实例，通常作为工具类 (Utility) 存在。</p>
+<pre><code>&gt;&gt;&gt; class StaticClassMeta(type):
+...     def __new__(cls, name, bases, attr):
+...         t = type.__new__(cls, name, bases, attr)
+...
+...     def ctor(cls, *args, **kwargs):
+...         raise RuntimeError("Cannot create a instance of the static class")
+...     t.__new__ = staticmethod(ctor)
+...
+...     return t
+&gt;&gt;&gt; class Data(object):
+...     __metaclass__ = StaticClassMeta
+&gt;&gt;&gt; Data()
+RuntimeError: Cannot create a instance of the static class</code></pre>
+<p>密封类 (sealed class): 禁止被继承。</p>
+<pre><code>&gt;&gt;&gt; class SealedClassMeta(type):
+...     _types = set()
+...
+...     def __init__(cls, name, bases, attrs):
+...         if cls._types &amp; set(bases):   # 判断当前类型基类是否是 sealed class。
+...             raise SyntaxError("Cannot inherit from a sealed class")
+...         cls._types.add(cls)    # 将当前类型加入到禁止继承集合。
+&gt;&gt;&gt; class A(object):
+...     __metaclass__ = SealedClassMeta
+&gt;&gt;&gt; class B(A): pass
+SyntaxError: Cannot inherit from a sealed class</code></pre></div>
+		<div class="previous-and-next">
+						<span class="pull-left">上一篇: <a id="previous_link" href="descriptor.html" data-toggle="tooltip" data-placement="top" title="上翻页快捷键：左方向键">描述符</a></span>
+			
+						<span class="pull-right">下一篇: <a id="next_link" href="string.html" data-toggle="tooltip" data-placement="top" title="下翻页快捷键：右方向键">字符串</a></span>
+					</div>
+				<div id="jkcomments"></div>
+			</div>
+	<div class="wiki-right fl">
+		<div id="myScrollspy">
+					</div>
+		<div class="backtotop">
+			<a href="javascript:;" class="btn-backtotop" style="display: none;"><div class="arrow"></div><div class="stick"></div></a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</div>
+</body>
+</html>

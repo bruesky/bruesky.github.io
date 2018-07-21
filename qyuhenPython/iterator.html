@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+			<meta name="keywords" content="迭代器,Python 学习笔记,Python教程">
+		
+			<meta name="description" content="在Python文档中，实现接口通常被称为遵守协议。因为&quot;弱类型&quot;和&quot;DuckType&amp;qu...">
+		
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta content=always name=referrer>
+	<link rel="stylesheet" href="stylesheets/page_article.min.333ba298.css">
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script>
+		<title>迭代器 - Python 学习笔记</title>
+	</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="article-header">
+	<div class="container article-container">
+		<span class="title"><a href="">Python 学习笔记</a></span>
+	</div>
+</div>
+<div class="container article-container">
+	<div class="left fl " data-offset-top="300">
+		<div class="left_title"><a class="" href="">刷新页面</a></div>
+		<div class="left_line"></div>
+		<div class="left_title">
+		<p>第一部分 Python 语言</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="basic-environment.html">基本环境</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="index.html">内置类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="expression.html">表达式</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="function.html">函数</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=" active "  href="iterator.html">迭代器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="module.html">模块</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="class.html">类</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="abnormal.html">异常</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="decorator.html">装饰器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="descriptor.html">描述符</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="metaclass.html">元类</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<p>第二部分 标准库</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="string.html">字符串</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-type.html">数据类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="mathematical-operations.html">数学运算</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="files-and-directories.html">文件与目录</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-stored.html">数据存储</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="operating-system.html">操作系统</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="process-communication.html">进程通信</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="application-framework.html">程序框架</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="extended-library.html">第三部分 扩展库</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="appendix.html">附录</a>
+		</div>
+	</div>
+	<div class="main fl">
+		<div class="markdown-body"><h1>迭代器</h1>
+<p>在 Python 文档中，实现接口通常被称为遵守协议。因为 &quot;弱类型&quot; 和 &quot;Duck Type&quot; 的缘故，很多静态语言中繁复的模式被悄悄抹平。</p>
+<h2 id="4c718d0bd2dc5a65a812128bbfcef19d">迭代器</h2>
+<p>迭代器协议，仅需要 <strong>iter</strong>() 和 next() 两个方法。前者返回迭代器对象，后者依次返回数据，直到引发 StopIteration 异常结束。</p>
+<p>最简单的做法是用内置函数 iter()，它返回常用类型的迭代器包装对象。问题是，序列类型已经可以被 for 处理，为何还要这么做？</p>
+<pre><code>&gt;&gt;&gt; class Data(object):
+...     def __init__(self):
+...         self._data = []
+...
+...     def add(self, x):
+...         self._data.append(x)
+...
+...     def data(self):
+...         return iter(self._data)
+&gt;&gt;&gt; d = Data()
+&gt;&gt;&gt; d.add(1)
+&gt;&gt;&gt; d.add(2)
+&gt;&gt;&gt; d.add(3)
+&gt;&gt;&gt; for x in d.data(): print x
+1
+2
+3</code></pre>
+<p>返回迭代器对象代替 self._data 列表，可避免对象状态被外部修改。或许你会尝试返回 tuple，但这需要复制整个列表，浪费更多的内存。</p>
+<p>iter() 很方便，但无法让迭代中途停止，这需要自己动手实现迭代器对象。在设计原则上，通常会将迭代器从数据对象中分离出去。因为迭代器需要维持状态，且可能有多个迭代器在同时操控数据，这些不该成为数据对象的负担，无端提升了复杂度。</p>
+<pre><code>&gt;&gt;&gt; class Data(object):
+...     def __init__(self, *args):
+...         self._data = list(args)
+...
+...     def __iter__(self):
+...         return DataIter(self)
+&gt;&gt;&gt; class DataIter(object):
+...     def __init__(self, data):
+...         self._index = 0
+...         self._data = data._data
+...
+...     def next(self):
+...         if self._index &gt;= len(self._data): raise StopIteration()
+...         d = self._data[self._index]
+...         self._index += 1
+...         return d
+&gt;&gt;&gt; d = Data(1, 2, 3)
+&gt;&gt;&gt; for x in d: print x
+1
+2
+3</code></pre>
+<p>Data 仅仅是数据容器，只需 <strong>iter</strong> 返回迭代器对象，而由 DataIter 提供 next 方法。</p>
+<p>除了 for 循环，迭代器也可以直接用 next() 操控。</p>
+<pre><code>&gt;&gt;&gt; d = Data(1, 2, 3)
+&gt;&gt;&gt; it = iter(d)
+&gt;&gt;&gt; it
+&lt;__main__.DataIter object at 0x10dafe850&gt;
+&gt;&gt;&gt; next(it)
+1
+&gt;&gt;&gt; next(it)
+2
+&gt;&gt;&gt; next(it)
+3
+&gt;&gt;&gt; next(it)
+StopIteration</code></pre>
+<h2 id="1a34b8d94c8f27615cfb6c34e1458e52">生成器</h2>
+<p>基于索引实现的迭代器有些丑陋，更合理的做法是用 yield 返回实现了迭代器协议的 Generator 对象。</p>
+<pre><code>&gt;&gt;&gt; class Data(object):
+...     def __init__(self, *args):
+...         self._data = list(args)
+...
+...     def __iter__(self):
+...         for x in self._data:
+...             yield x
+&gt;&gt;&gt; d = Data(1, 2, 3)
+&gt;&gt;&gt; for x in d: print x
+1
+2
+3</code></pre>
+<p>编译器魔法会将包含 yield 的方法 (或函数) 重新打包，使其返回 Generator 对象。这样一来，就无须废力气维护额外的迭代器类型了。</p>
+<pre><code>&gt;&gt;&gt; d.__iter__()
+&lt;generator object __iter__ at 0x10db01280&gt;
+&gt;&gt;&gt; iter(d).next()
+1</code></pre>
+<p><strong>协程</strong></p>
+<p>yield 为何能实现这样的魔法？这涉及到协程 (coroutine) 的工作原理。先看下面的例子。</p>
+<pre><code>&gt;&gt;&gt; def coroutine():
+...     print "coroutine start..."
+...     result = None
+...     while True:
+...         s = yield result
+...         result = s.split(",")
+&gt;&gt;&gt; c = coroutine()   # 函数返回协程对象。
+&gt;&gt;&gt; c.send(None)    # 使用 send(None) 或 next() 启动协程。
+coroutine start...
+&gt;&gt;&gt; c.send("a,b")    # 向协程发送消息，使其恢复执行。
+['a', 'b']
+&gt;&gt;&gt; c.send("c,d")
+['c', 'd']
+&gt;&gt;&gt; c.close()    # 关闭协程，使其退出。或用 c.throw() 使其引发异常。
+&gt;&gt;&gt; c.send("e,f")    # 无法向已关闭的协程发送消息。
+StopIteration</code></pre>
+<p>协程执行流程：</p>
+<ul>
+<li>创建协程后对象，必须使用 send(None) 或 next() 启动。</li>
+<li>协程在执行 yield result 后让出执行绪，等待消息。</li>
+<li>调用方发送 send(&quot;a,b&quot;) 消息，协程恢复执行，将接收到的数据保存到 s，执行后续流程。</li>
+<li>再次循环到 yeild，协程返回前面的处理结果，并再次让出执行绪。</li>
+<li>直到关闭或被引发异常。</li>
+</ul>
+<p>close() 引发协程 GeneratorExit 异常，使其正常退出。而 throw() 可以引发任何类型的异常，这需要在协程内部捕获。</p>
+<p>虽然生成器 yield 能轻松实现协程机制，但离真正意义上的高并发还有不小的距离。可以考虑使用成熟的第三方库，比如 gevent/eventlet，或直接用 greenlet。</p>
+<h2 id="f0789e79d48f135e5d870753f7a85d05">模式</h2>
+<p>善用迭代器，总会有意外的惊喜。</p>
+<p>生产消费模型</p>
+<p>利用 yield 协程特性，我们无需多线程就可以编写生产消费模型。</p>
+<pre><code>&gt;&gt;&gt; def consumer():
+...     while True:
+...         d = yield
+...         if not d: break
+...         print "consumer:", d
+&gt;&gt;&gt; c = consumer()  # 创建消费者
+&gt;&gt;&gt; c.send(None)  # 启动消费者
+&gt;&gt;&gt; c.send(1)  # 生产数据，并提交给消费者。
+consumer: 1
+&gt;&gt;&gt; c.send(2)
+consumer: 2
+&gt;&gt;&gt; c.send(3)
+consumer: 3
+&gt;&gt;&gt; c.send(None)  # 生产结束，通知消费者结束。
+StopIteration</code></pre>
+<p><strong>改进回调</strong></p>
+<p>回调函数是实现异步操作的常用手法，只不过代码规模一大，看上去就不那么舒服了。好好的逻辑被切分到两个函数里，维护也是个问题。有了 yield，完全可以用 blocking style 编写异步调用。</p>
+<p>下面是 callback 版本的示例，其中 Framework 调用 logic，在完成某些操作或者接收到信号后，用 callback 返回异步结果。</p>
+<pre><code>&gt;&gt;&gt; def framework(logic, callback):
+...     s = logic()
+...     print "[FX] logic: ", s
+...     print "[FX] do something..."
+...     callback("async:" + s)
+&gt;&gt;&gt; def logic():
+...     s = "mylogic"
+...     return s
+&gt;&gt;&gt; def callback(s):
+...     print s
+&gt;&gt;&gt; framework(logic, callback)
+[FX] logic: mylogic
+[FX] do something...
+async:mylogic</code></pre>
+<p>看看用 yield 改进的 blocking style 版本。</p>
+<pre><code>&gt;&gt;&gt; def framework(logic):
+...     try:
+...         it = logic()
+...         s = next(it)
+...         print "[FX] logic: ", s
+...         print "[FX] do something"
+...         it.send("async:" + s)
+...     except StopIteration:
+...         pass
+&gt;&gt;&gt; def logic():
+...     s = "mylogic"
+...     r = yield s
+...     print r
+&gt;&gt;&gt; framework(logic)
+[FX] logic: mylogic
+[FX] do something
+async:mylogic</code></pre>
+<p>尽管 framework 变得复杂了一些，但却保持了 logic 的完整性。blocking style 样式的编码给逻辑维护带来的好处无需言说。</p>
+<h2 id="451f883e08d2026c2f3229770ae7819d">宝藏</h2>
+<p>标准库 itertools 模块是不应该忽视的宝藏。</p>
+<p><strong>chain</strong></p>
+<p>连接多个迭代器。</p>
+<pre><code>&gt;&gt;&gt; it = chain(xrange(3), "abc")
+&gt;&gt;&gt; list(it)
+[0, 1, 2, 'a', 'b', 'c']</code></pre>
+<p><strong>combinations</strong></p>
+<p>返回指定长度的元素顺序组合序列。</p>
+<pre><code>&gt;&gt;&gt; it = combinations("abcd", 2)
+&gt;&gt;&gt; list(it)
+[('a', 'b'), ('a', 'c'), ('a', 'd'), ('b', 'c'), ('b', 'd'), ('c', 'd')]
+&gt;&gt;&gt; it = combinations(xrange(4), 2)
+&gt;&gt;&gt; list(it)
+[(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]</code></pre>
+<p>combinations_with_replacement 会额外返回同一元素的组合。</p>
+<pre><code>&gt;&gt;&gt; it = combinations_with_replacement("abcd", 2)
+&gt;&gt;&gt; list(it)
+[('a', 'a'), ('a', 'b'), ('a', 'c'), ('a', 'd'), ('b', 'b'), ('b', 'c'), ('b', 'd'),
+('c', 'c'), ('c', 'd'), ('d', 'd')]</code></pre>
+<p><strong>compress</strong></p>
+<p>按条件表过滤迭代器元素。</p>
+<pre><code>&gt;&gt;&gt; it = compress("abcde", [1, 0, 1, 1, 0])
+&gt;&gt;&gt; list(it)
+['a', 'c', 'd']</code></pre>
+<p>条件列表可以是任何布尔列表。</p>
+<p><strong>count</strong></p>
+<p>从起点开始，&quot;无限&quot; 循环下去。</p>
+<pre><code>&gt;&gt;&gt; for x in count(10, step = 2):
+...     print x
+...     if x &gt; 17: break
+10
+12
+14
+16
+18</code></pre>
+<p><strong>cycle</strong></p>
+<p>迭代结束，再从头来过。</p>
+<pre><code>&gt;&gt;&gt; for i, x in enumerate(cycle("abc")):
+...     print x
+...     if i &gt; 7: break
+a
+b
+c
+a
+b
+c
+a
+b
+c</code></pre>
+<p><strong>dropwhile</strong></p>
+<p>跳过头部符合条件的元素。</p>
+<pre><code>&gt;&gt;&gt; it = dropwhile(lambda i: i &lt; 4, [2, 1, 4, 1, 3])
+&gt;&gt;&gt; list(it)
+[4, 1, 3]</code></pre>
+<p>takewhile 则仅保留头部符合条件的元素。</p>
+<pre><code>&gt;&gt;&gt; it = takewhile(lambda i: i &lt; 4, [2, 1, 4, 1, 3])
+&gt;&gt;&gt; list(it)
+[2, 1]</code></pre>
+<p><strong>groupby</strong></p>
+<p>将连续出现的相同元素进行分组。</p>
+<pre><code>&gt;&gt;&gt; [list(k) for k, g in groupby('AAAABBBCCDAABBCCDD')]
+[['A'], ['B'], ['C'], ['D'], ['A'], ['B'], ['C'], ['D']]
+&gt;&gt;&gt; [list(g) for k, g in groupby('AAAABBBCCDAABBCCDD')]
+[['A', 'A', 'A', 'A'], ['B', 'B', 'B'], ['C', 'C'], ['D'], ['A', 'A'], ['B', 'B'], ['C',
+'C'], ['D', 'D']]</code></pre>
+<p><strong>ifilter</strong></p>
+<p>与内置函数 filter() 类似，仅保留符合条件的元素。</p>
+<pre><code>&gt;&gt;&gt; it = ifilter(lambda x: x % 2, xrange(10))
+&gt;&gt;&gt; list(it)
+[1, 3, 5, 7, 9]</code></pre>
+<p>ifilterfalse 正好相反，保留不符合条件的元素。</p>
+<pre><code>&gt;&gt;&gt; it = ifilterfalse(lambda x: x % 2, xrange(10))
+&gt;&gt;&gt; list(it)
+[0, 2, 4, 6, 8]</code></pre>
+<p><strong>imap</strong></p>
+<p>与内置函数 map() 类似。</p>
+<pre><code>&gt;&gt;&gt; it = imap(lambda x, y: x + y, (2,3,10), (5,2,3))
+&gt;&gt;&gt; list(it)
+[7, 5, 13]</code></pre>
+<p><strong>islice</strong></p>
+<p>以切片的方式从迭代器获取元素。</p>
+<pre><code>&gt;&gt;&gt; it = islice(xrange(10), 3)
+&gt;&gt;&gt; list(it)
+[0, 1, 2]
+&gt;&gt;&gt; it = islice(xrange(10), 3, 5)
+&gt;&gt;&gt; list(it)
+[3, 4]
+&gt;&gt;&gt; it = islice(xrange(10), 3, 9, 2)
+&gt;&gt;&gt; list(it)
+[3, 5, 7]</code></pre>
+<p><strong>izip</strong></p>
+<p>与内置函数 zip() 类似，多余元素会被抛弃。</p>
+<pre><code>&gt;&gt;&gt; it = izip("abc", [1, 2])
+&gt;&gt;&gt; list(it)
+[('a', 1), ('b', 2)]</code></pre>
+<p>要保留多余元素可以用 izip_longest，它提供了一个补缺参数。</p>
+<pre><code>&gt;&gt;&gt; it = izip_longest("abc", [1, 2], fillvalue = 0)
+&gt;&gt;&gt; list(it)
+[('a', 1), ('b', 2), ('c', 0)]</code></pre>
+<p><strong>permutations</strong></p>
+<p>与 combinations 顺序组合不同，permutations 让每个元素都从头组合一遍。</p>
+<pre><code>&gt;&gt;&gt; it = permutations("abc", 2)
+&gt;&gt;&gt; list(it)
+[('a', 'b'), ('a', 'c'), ('b', 'a'), ('b', 'c'), ('c', 'a'), ('c', 'b')]
+&gt;&gt;&gt; it = combinations("abc", 2)
+&gt;&gt;&gt; list(it)
+[('a', 'b'), ('a', 'c'), ('b', 'c')]</code></pre>
+<p><strong>product</strong></p>
+<p>让每个元素都和后面的迭代器完整组合一遍。</p>
+<pre><code>&gt;&gt;&gt; it = product("abc", [0, 1])
+&gt;&gt;&gt; list(it)
+[('a', 0), ('a', 1), ('b', 0), ('b', 1), ('c', 0), ('c', 1)]</code></pre>
+<p><strong>repeat</strong></p>
+<p>将一个对象重复 n 次。</p>
+<pre><code>&gt;&gt;&gt; it = repeat("a", 3)
+&gt;&gt;&gt; list(it)
+['a', 'a', 'a']</code></pre>
+<p><strong>starmap</strong></p>
+<p>按顺序处理每组元素。</p>
+<pre><code>&gt;&gt;&gt; it = starmap(lambda x, y: x + y, [(1, 2), (10, 20)])
+&gt;&gt;&gt; list(it)
+[3, 30]</code></pre>
+<p><strong>tee</strong></p>
+<p>复制迭代器。</p>
+<pre><code>&gt;&gt;&gt; for it in tee(xrange(5), 3):
+... print list(it)
+[0, 1, 2, 3, 4]
+[0, 1, 2, 3, 4]
+[0, 1, 2, 3, 4]</code></pre></div>
+		<div class="previous-and-next">
+						<span class="pull-left">上一篇: <a id="previous_link" href="function.html" data-toggle="tooltip" data-placement="top" title="上翻页快捷键：左方向键">函数</a></span>
+			
+						<span class="pull-right">下一篇: <a id="next_link" href="module.html" data-toggle="tooltip" data-placement="top" title="下翻页快捷键：右方向键">模块</a></span>
+					</div>
+				<div id="jkcomments"></div>
+			</div>
+	<div class="wiki-right fl">
+		<div id="myScrollspy">
+						<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="300">
+							<li><a href="#4c718d0bd2dc5a65a812128bbfcef19d">迭代器</a></li>
+							<li><a href="#1a34b8d94c8f27615cfb6c34e1458e52">生成器</a></li>
+							<li><a href="#f0789e79d48f135e5d870753f7a85d05">模式</a></li>
+							<li><a href="#451f883e08d2026c2f3229770ae7819d">宝藏</a></li>
+						</ul>
+					</div>
+		<div class="backtotop">
+			<a href="javascript:;" class="btn-backtotop" style="display: none;"><div class="arrow"></div><div class="stick"></div></a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</div>
+</body>
+</html>

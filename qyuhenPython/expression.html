@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+			<meta name="keywords" content="表达式,Python 学习笔记,Python教程">
+		
+			<meta name="description" content="Python源码格式有点特殊。首先，可能因为出生年代久远的缘故，编译器默认编码采用ASCII，而非当前通行的UTF-8。...">
+		
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta content=always name=referrer>
+	<link rel="stylesheet" href="stylesheets/page_article.min.333ba298.css">
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script>
+		<title>表达式 - Python 学习笔记</title>
+	</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="article-header">
+	<div class="container article-container">
+		<span class="title"><a href="">Python 学习笔记</a></span>
+	</div>
+</div>
+<div class="container article-container">
+	<div class="left fl " data-offset-top="300">
+		<div class="left_title"><a class="" href="">刷新页面</a></div>
+		<div class="left_line"></div>
+		<div class="left_title">
+		<p>第一部分 Python 语言</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="basic-environment.html">基本环境</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="index.html">内置类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=" active "  href="expression.html">表达式</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="function.html">函数</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="iterator.html">迭代器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="module.html">模块</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="class.html">类</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="abnormal.html">异常</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="decorator.html">装饰器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="descriptor.html">描述符</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="metaclass.html">元类</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<p>第二部分 标准库</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="string.html">字符串</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-type.html">数据类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="mathematical-operations.html">数学运算</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="files-and-directories.html">文件与目录</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-stored.html">数据存储</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="operating-system.html">操作系统</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="process-communication.html">进程通信</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="application-framework.html">程序框架</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="extended-library.html">第三部分 扩展库</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="appendix.html">附录</a>
+		</div>
+	</div>
+	<div class="main fl">
+		<div class="markdown-body"><h1>表达式</h1>
+<h2 id="00d3ad8366159cd83853aa67c8f5095b">句法规则</h2>
+<p>Python 源码格式有点特殊。首先，可能因为出生年代久远的缘故，编译器默认编码采用 ASCII，而非当前通行的 UTF-8。其次，就是强制缩进格式让很多人 &quot;纠结&quot;，甚至 &quot;望而却步&quot;。</p>
+<p><strong>源文件编码</strong></p>
+<p>下面这样的错误，初学时很常见。究其原因，还是编译器默认将文件当成 ASCII 码的缘故。</p>
+<pre><code>SyntaxError: Non-ASCII character '\xe4' in file ./main.py on line 4, but no encoding
+declared; see http://www.python.org/peps/pep-0263.html for details</code></pre>
+<p>解决方法：在文件头部添加正确的编码标识。</p>
+<pre><code>$ cat main.py
+#/usr/bin/env python
+# coding=utf-8
+def main():
+    print "世界末日！"   # 玛雅人都是骗人的
+if __name__ == "__main__":
+    main()</code></pre>
+<p>也可以写成：</p>
+<pre><code># -*- coding:utf-8 -*-</code></pre>
+<p><strong>强制缩进</strong></p>
+<p>缩进是强制性的语法规则。通常建议用 4 个空格代替 TAB，好在多数编辑器都能自动转换。</p>
+<p>最大的麻烦就是从网页拷贝代码时，缩进丢失导致源码成了乱码。解决方法是：</p>
+<ul>
+<li>像很多 C 程序员那样，在 block 尾部添加 &quot;# end&quot; 注释。</li>
+<li>如果嫌不好看，可自定义一个 end 伪关键字。</li>
+</ul>
+<pre><code>#/usr/bin/env python
+# coding=utf-8
+__builtins__.end = None  # 看这里，看这里……
+def test(x):
+    if x &gt; 0:
+        print "a"
+    else:
+        print "b"
+    end
+end
+def main():
+    print "世界末日！"   # 再次鄙视玛雅人！(*_*)
+end
+if __name__ == "__main__":
+    main()</code></pre>
+<p>只要找到 end，就能确定 code block 的缩进范围了。</p>
+<p><strong>注释</strong></p>
+<p>注释从 # 开始，到行尾结束，不支持跨行。大段的描述可以用 &quot;&quot;&quot;<strong>doc</strong>&quot;&quot;&quot;。</p>
+<p><strong>语句</strong></p>
+<p>可以用 &quot;;&quot; 将多条语句写在同一行，或者用 &quot;\&quot; 将一条语句拆分成多行。</p>
+<pre><code>&gt;&gt;&gt; d = {}; d["a"] = 1; d.items()
+[('a', 1)]
+&gt;&gt;&gt; for k, v in \
+... d.items():
+... print k, v
+a 1</code></pre>
+<p>某些 ()、[]、{} 表达式无需 &quot;\&quot; 就可写成多行。</p>
+<pre><code>&gt;&gt;&gt; d = {
+...     "a": 1,
+...     "b": 2
+... }
+&gt;&gt;&gt; d.pop("a",
+... 2)
+1</code></pre>
+<p><strong>帮助</strong></p>
+<p>可以非常方便地为函数、模块和类添加帮助信息。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     """
+...     func help
+...     """
+...     pass
+&gt;&gt;&gt; test.__doc__
+'\n     func help\n '
+&gt;&gt;&gt; class User(object):
+...     """User Model"""
+...
+...     def __init__(self):
+...         """user.__init__"""
+...         pass
+&gt;&gt;&gt; User.__doc__
+'User Model'
+&gt;&gt;&gt; User.__init__.__doc__
+'user.__init__'</code></pre>
+<p>在 shell 用 help() 查看帮助信息，它会合并对象所有成员的帮助内容。</p>
+<h2 id="588359deb88c5cc9520e979df8f6dbe6">命名规则</h2>
+<p>命名规则不算复杂，只不过涉及私有成员命名时有点讲究。</p>
+<ul>
+<li>必须以字母或下划线开头，且只能是下划线、字母和数字的组合。</li>
+<li>不能和语言保留字相同。</li>
+<li>名字区分大小写。</li>
+<li>模块中以下划线开头的名字视为私有。</li>
+<li>以双下划线开头的类成员名字视为私有。</li>
+<li>同时以双下划线开头和结尾的名字，通常是特殊成员。</li>
+<li>单一下划线代表最后表达式的返回值。</li>
+</ul>
+<pre><code>&gt;&gt;&gt; s = set("abc")
+&gt;&gt;&gt; s.pop()
+'a'
+&gt;&gt;&gt; _
+'a'</code></pre>
+<p>保留字 (包括 Python 3)：</p>
+<pre><code>False       class       finally         is          return
+None        continue    for             lambda      try
+True        def         from            nolcoal     while
+and         del         global          not         with
+as          elif        if              or          yield
+assert      else        import          pass
+break       except      in              raise</code></pre>
+<h2 id="8f40db3b25528063f1b6a59602a05cd5">赋值</h2>
+<p>除非在函数中使用关键字 global、nolocal 指明外部名字，否则赋值语句总是在当前名字空间创建或修改 {name:object} 关联。</p>
+<p>与 C 以 block 为隔离，能在函数中创建多个同名变量不同，Python 函数所有代码共享同一名字空间，会出现下面这样的状况。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     while True:
+...         x = 10
+...         break
+...     print locals()
+...     print x   # 这个写法在 C 里面会报错。
+&gt;&gt;&gt; test()
+{'x': 10}
+10</code></pre>
+<p>支持用序列类型或迭代器对多个名字同时赋值。</p>
+<pre><code>&gt;&gt;&gt; a, b = "a", "b"
+&gt;&gt;&gt; a, b = "ab"
+&gt;&gt;&gt; a, b = [1, 2]
+&gt;&gt;&gt; a, b = xrange(2)</code></pre>
+<p>一旦值多过名字数量，会引发异常。要么切片，要么用 &quot;_&quot; 补位。</p>
+<pre><code>&gt;&gt;&gt; a, b = "abc"
+Traceback (most recent call last):
+    a, b = "abc"
+ValueError: too many values to unpack
+&gt;&gt;&gt; a, b, _ = "abc"
+&gt;&gt;&gt; a, b = "abc"[:2]</code></pre>
+<p>Python 3 对此提供了更好的支持。</p>
+<pre><code>Python 3.3.0 (default, Nov 4 2012, 20:26:43)
+&gt;&gt;&gt; a, *b, c = "a1234c"
+&gt;&gt;&gt; a, b, c
+('a', ['1', '2', '3', '4'], 'c')</code></pre>
+<h2 id="a9400c408441f1f7f6d6954deb05ae9a">表达式</h2>
+<p><strong>if</strong></p>
+<p>只需记住将 &quot;else if&quot; 换成 &quot;elif&quot; 即可。</p>
+<pre><code>&gt;&gt;&gt; x = 10
+&gt;&gt;&gt; if x &gt; 0:
+...     print "+"
+... elif x &lt; 0:
+...     print "-"
+... else:
+...     print "0"
++</code></pre>
+<p>可以改造得简单一些。</p>
+<pre><code>&gt;&gt;&gt; x = 1
+&gt;&gt;&gt; print "+" if x &gt; 0 else ("-" if x &lt; 0 else "0")
++
+&gt;&gt;&gt; x = 0
+&gt;&gt;&gt; print "+" if x &gt; 0 else ("-" if x &lt; 0 else "0")
+0
+&gt;&gt;&gt; x = -1
+&gt;&gt;&gt; print "+" if x &gt; 0 else ("-" if x &lt; 0 else "0")
+-</code></pre>
+<p>或者利用 and、or 条件短路，写得更简洁些。</p>
+<pre><code>&gt;&gt;&gt; x = 1
+&gt;&gt;&gt; print (x &gt; 0 and "+") or (x &lt; 0 and "-") or "0"
++
+&gt;&gt;&gt; x = 0
+&gt;&gt;&gt; print (x &gt; 0 and "+") or (x &lt; 0 and "-") or "0"
+0
+&gt;&gt;&gt; x = -1
+&gt;&gt;&gt; print (x &gt; 0 and "+") or (x &lt; 0 and "-") or "0"
+-</code></pre>
+<p>可以将两次比较合并成一个表达式。</p>
+<pre><code>&gt;&gt;&gt; x = 10
+&gt;&gt;&gt; if (5 &lt; x &lt;= 10): print "haha"
+haha!</code></pre>
+<p>条件表达式不能包含赋值语句，习惯此种写法的需要调整一下了。</p>
+<pre><code>&gt;&gt;&gt; if (x = 1) &gt; 0: pass
+    File "&lt;ipython-input-4-bc2d73931d91&gt;", line 1
+        if (x = 1) &gt; 0: pass
+            ^
+SyntaxError: invalid syntax</code></pre>
+<p><strong>while</strong></p>
+<p>比我们熟悉的 while 多了个可选的 else 分支。如果循环没有被中断，那么 else 就会执行。</p>
+<pre><code>&gt;&gt;&gt; x = 3
+&gt;&gt;&gt; while x &gt; 0:
+...     x -= 1
+... else:
+...     print "over"
+over!
+&gt;&gt;&gt; while True:
+...     x += 1
+...     if x &gt; 3: break
+... else:
+...     print "over"</code></pre>
+<p>利用 else 分支标记循环逻辑被完整处理是个不错的主意。</p>
+<p><strong>for</strong></p>
+<p>更名为 foreach 可能更合适一些，用来循环处理序列和迭代器对象。</p>
+<pre><code>&gt;&gt;&gt; for i in xrange(3): print i
+0
+1
+2
+&gt;&gt;&gt; for k, v in {"a":1, "b":2}.items(): print k, v # 多变量赋值
+a 1
+b 2
+&gt;&gt;&gt; d = ((1, ["a", "b"]), (2, ["x", "y"]))
+&gt;&gt;&gt; for i, (c1, c2) in d:    # 多层展开
+... print i, c1, c2
+1 a b
+2 x y</code></pre>
+<p>同样有个可选的 else 分支。</p>
+<pre><code>&gt;&gt;&gt; for x in xrange(3):
+...     print x
+... else:
+...     print "over"
+0
+1
+2
+over!
+&gt;&gt;&gt; for x in xrange(3):
+...     print x
+...     if x &gt; 1: break
+... else:
+...     print "over"
+0
+1
+2</code></pre>
+<p>要实现传统的 for 循环，需要借助 enumerate() 返回序号。</p>
+<pre><code>&gt;&gt;&gt; for i, c in enumerate("abc"):
+... print "s[{0}] = {1}".format(i, c)
+s[0] = a
+s[1] = b
+s[2] = c</code></pre>
+<p><strong>pass</strong></p>
+<p>占位符，用来标记空代码块。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     pass
+&gt;&gt;&gt; class User(object):
+...     pass</code></pre>
+<p><strong>break / continue</strong></p>
+<p>break 中断循环，continue 开始下一次循环。</p>
+<p>没有 goto、label，也无法用 break、continue 跳出多层嵌套循环。</p>
+<pre><code>&gt;&gt;&gt; while True:
+...     while True:
+...         flag = True
+...         break
+...     if "flag" in locals(): break</code></pre>
+<p>如果嫌 &quot;跳出标记&quot; 不好看，可以考虑抛出异常。</p>
+<pre><code>&gt;&gt;&gt; class BreakException(Exception): pass
+&gt;&gt;&gt; try:
+...     while True:
+...         while True:
+...             raise BreakException()
+... except BreakException:
+...     print "越狱成功"</code></pre>
+<p>其实也没好看到哪去，但好歹保持内部逻辑的干净。</p>
+<p><strong>del</strong></p>
+<p>可删除名字、序列元素、字典键值，以及对象成员。</p>
+<pre><code>&gt;&gt;&gt; x = 1
+&gt;&gt;&gt; "x" in globals()
+True
+&gt;&gt;&gt; del x
+&gt;&gt;&gt; "x" in globals()
+False
+&gt;&gt;&gt; x = range(10)
+&gt;&gt;&gt; del x[1]
+&gt;&gt;&gt; x
+[0, 2, 3, 4, 5, 6, 7, 8, 9]
+&gt;&gt;&gt; x = range(10)
+&gt;&gt;&gt; del x[1:5]     # 按切片删除
+&gt;&gt;&gt; x
+[0, 5, 6, 7, 8, 9]
+&gt;&gt;&gt; d = {"a":1, "b":2}
+&gt;&gt;&gt; del d["a"]     # key 不存在时，会抛出异常。
+&gt;&gt;&gt; d
+{'b': 2}
+&gt;&gt;&gt; class User(object): pass
+&gt;&gt;&gt; o = User()
+&gt;&gt;&gt; o.name = "user1"
+&gt;&gt;&gt; hasattr(o, "name")
+True
+&gt;&gt;&gt; del o.name
+&gt;&gt;&gt; hasattr(o, "name")
+False</code></pre>
+<p><strong>Generator</strong></p>
+<p>用一种优雅的方式创建列表、字典或集合。</p>
+<pre><code>&gt;&gt;&gt; [x for x in range(10)]   # 列表
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+&gt;&gt;&gt; {x for x in range(10)}   # 集合
+set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+&gt;&gt;&gt; {c:ord(c) for c in "abc"}   # 字典
+{'a': 97, 'c': 99, 'b': 98}
+&gt;&gt;&gt; (x for x in range(10))
+&lt;generator object &lt;genexpr&gt; at 0x10328a690&gt;</code></pre>
+<p>可带上条件进行过滤。</p>
+<pre><code>&gt;&gt;&gt; [x for x in range(10) if x % 2]
+[1, 3, 5, 7, 9]</code></pre>
+<p>或用多个 for 子句实现嵌套。</p>
+<pre><code>&gt;&gt;&gt; ["{0}{1}".format(c, x) for c in "abc" for x in range(3)]
+['a0', 'a1', 'a2', 'b0', 'b1', 'b2', 'c0', 'c1', 'c2']</code></pre>
+<p>这相当于：</p>
+<pre><code>&gt;&gt;&gt; n = []
+&gt;&gt;&gt; for c in "abc":
+...     for x in range(3):
+...         n.append("{0}{1}".format(c, x))</code></pre>
+<p>每个子句都可有条件表达式，内层可引用外层名字。</p>
+<pre><code>&gt;&gt;&gt; ["{0}{1}".format(c, x)   \
+...     for c in "aBcD" if c.isupper() \
+...     for x in range(5) if x % 2  \
+... ]
+['B1', 'B3', 'D1', 'D3']</code></pre>
+<p>甚至可直接用做函数实参。</p>
+<pre><code>&gt;&gt;&gt; def test(it):
+...     for i, x in enumerate(it):
+...         print "{0} = {1}".format(i, x)
+&gt;&gt;&gt; test(hex(x) for x in range(3))
+0 = 0x0
+1 = 0x1
+2 = 0x2</code></pre>
+<h2 id="9cdd4a789b02863f4444c0f68b42d3e3">运算符</h2>
+<p>这东西没啥好说的，只要记得没 &quot;++&quot;、&quot;--&quot; 就行。</p>
+<p><img src="images/52C99559EC28F3F9EBDD5C89518D1570.png" alt="" /></p>
+<p><img src="images/EC0D998F894CC6CB3F515E3997E1CEA0.png" alt="" /></p>
+<p><strong>切片</strong></p>
+<p>序列类型支持 &quot;切片 (slice)&quot; 操作，可通过两个索引序号获取片段。</p>
+<pre><code>&gt;&gt;&gt; x = range(10)
+&gt;&gt;&gt; x[2:6]   # [2, 6)
+[2, 3, 4, 5]
+&gt;&gt;&gt; x[2:-2]   # [2, len(x) - 2)
+[2, 3, 4, 5, 6, 7]</code></pre>
+<p>支持大于 1 的步进。</p>
+<pre><code>&gt;&gt;&gt; x[2:6:2]
+[2, 4]</code></pre>
+<p>可以忽略起始或结束序号。</p>
+<pre><code>&gt;&gt;&gt; x[:]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+&gt;&gt;&gt; x[:6]
+[0, 1, 2, 3, 4, 5]
+&gt;&gt;&gt; x[7:]
+[7, 8, 9]</code></pre>
+<p>支持倒序。</p>
+<pre><code>&gt;&gt;&gt; x[::-1]
+[9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+&gt;&gt;&gt; x[7:3:-2]
+[7, 5]</code></pre>
+<p>可按切片范围删除序列元素。</p>
+<pre><code>&gt;&gt;&gt; x = range(10)
+&gt;&gt;&gt; del x[4:8]; x
+[0, 1, 2, 3, 8, 9]
+&gt;&gt;&gt; x = range(10)
+&gt;&gt;&gt; del x[::2]; x
+[1, 3, 5, 7, 9]</code></pre>
+<p>甚至不等长的切片替换。</p>
+<pre><code>&gt;&gt;&gt; a = [1, 2, 3]
+&gt;&gt;&gt; a[:1] = ["a", "b", "c"]
+&gt;&gt;&gt; a
+['a', 'b', 'c', 2, 3]</code></pre>
+<p><strong>布尔</strong>
+and 返回短路时的最后一个值，or 返回第一个真值。要是没短路的话，返回最后一个值。</p>
+<pre><code>&gt;&gt;&gt; 1 and 2   # True: 最后一个值
+2
+&gt;&gt;&gt; 1 and 2 and 0  # False: 最后一个值
+0
+&gt;&gt;&gt; 1 and 0 and 2  # False: 第一个短路值 0
+0
+&gt;&gt;&gt; 1 or 0   # True: 第一个真值 1
+1
+&gt;&gt;&gt; 0 or [] or 1  # True: 第一个真值 1
+1
+&gt;&gt;&gt; 0 or 1 or ["a"] # True: 第一个真值 1
+1</code></pre>
+<p>用 and、or 实现 &quot;三元表达式 (:)&quot;。</p>
+<pre><code>&gt;&gt;&gt; x = 5
+&gt;&gt;&gt; print x &gt; 0 and "A" or "B"
+A</code></pre>
+<p>用 or 提供默认值。</p>
+<pre><code>&gt;&gt;&gt; x = 5
+&gt;&gt;&gt; y = x or 0
+&gt;&gt;&gt; y
+5
+&gt;&gt;&gt; x = None
+&gt;&gt;&gt; y = x or 0
+&gt;&gt;&gt; y
+0</code></pre>
+<p><strong>相等</strong></p>
+<p>操作符 &quot;==&quot; 可被重载，不适合用来判断两个名字是否指向同一对象。</p>
+<pre><code>&gt;&gt;&gt; class User(object):
+...     def __init__(self, name):
+...         self.name = name
+...     def __eq__(self, o):
+...         if not o or not isinstance(o, User): return False
+...          return cmp(self.name, o.name) == 0
+&gt;&gt;&gt; a, b = User("tom"), User("tom")
+&gt;&gt;&gt; a is b   # is 总是判断指针是否相同。
+False
+&gt;&gt;&gt; a == b   # 通过 __eq__ 进行判断。
+True</code></pre>
+<h2 id="f3c723ec65e85eefc7c7d885aa33f64d">类型转换</h2>
+<p>各种类型和字符串间的转换。</p>
+<pre><code>&gt;&gt;&gt; str(123), int('123')     # int
+&gt;&gt;&gt; bin(17), int('0b10001', 2)
+&gt;&gt;&gt; oct(20), int('024', 8)
+&gt;&gt;&gt; hex(22), int('0x16', 16)
+&gt;&gt;&gt; str(0.9), float("0.9")    # float
+&gt;&gt;&gt; ord('a'), chr(97), unichr(97)   # char
+&gt;&gt;&gt; str([0, 1, 2]), eval("[0, 1, 2]")   # list
+&gt;&gt;&gt; str((0, 1, 2)), eval("(0, 1, 2)")   # tuple
+&gt;&gt;&gt; str({"a":1, "b":2}), eval("{'a': 1, 'b': 2}") # dict
+&gt;&gt;&gt; str({1, 2, 3}), eval("{1, 2, 3}")   # set</code></pre>
+<h2 id="ca48b68b7280423081d2c509d5bc88a1">常用函数</h2>
+<p><strong>print</strong></p>
+<p>Python 2.7 可使用 print 表达式，Python 3 就只能用函数了。</p>
+<pre><code>&gt;&gt;&gt; import sys
+&gt;&gt;&gt; print &gt;&gt; sys.stderr, "Error", 456
+Error 456
+&gt;&gt;&gt; from __future__ import print_function
+&gt;&gt;&gt; print("Hello", "World", sep = ",", end = "\r\n", file = sys.stdout)
+Hello,World</code></pre>
+<p>用标准库中的 pprint.pprint() 代替 print，能看到更漂亮的输出结果。要输出到 /dev/null，可以使用 open(os.devnull, &quot;w&quot;)。</p>
+<p><strong>input</strong></p>
+<p>input 会将输入的字符串进行 eval 处理，raw_input 直接返回用户输入的原始字符串。</p>
+<pre><code>&gt;&gt;&gt; input("$ ")
+$ 1+2+3
+6
+&gt;&gt;&gt; raw_input("$ ")
+$ 1+2+3
+'1+2+3'</code></pre>
+<p>Python 3 已经将 raw_input 重命名为 input。</p>
+<p>用标准库 getpass 输入密码。</p>
+<pre><code>&gt;&gt;&gt; from getpass import getpass, getuser
+&gt;&gt;&gt; pwd = getpass("%s password: " % getuser())
+yuhen password:
+&gt;&gt;&gt; pwd
+'123456'</code></pre>
+<p><strong>exit</strong></p>
+<p>exit([status]) 调用所有退出函数后终止进程，并返回 ExitCode。</p>
+<ul>
+<li>忽略或 status = None，表示正常退出， ExitCode = 0。</li>
+<li>status = <number>，表示 ExiCode = <number>。</li>
+<li>返回非数字对象表示失败，参数会被显示， ExitCode = 1。</li>
+</ul>
+<pre><code>$ cat main.py
+#/usr/bin/env python
+#coding=utf-8
+import atexit
+def clean():
+    print "clean..."
+def main():
+    atexit.register(clean)
+    exit("Failure")
+if __name__ == "__main__":
+    main()
+$ ./main.py
+Failure
+clean...
+$ echo $
+1</code></pre>
+<p>sys.exit() 和 exit() 完全相同。os._exit() 直接终止进程，不调用退出函数，且退出码必须是数字。</p>
+<p><strong>vars</strong></p>
+<p>获取 locals 或指定对象的名字空间。</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>vars() is locals()
+True</p>
+<p>import sys</p>
+<p>vars(sys) is sys.<strong>dict</strong>
+True</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><strong>dir</strong></p>
+<p>获取 locals 名字空间中的所有名字，或指定对象所有可访问成员 (包括基类)。</p>
+<pre><code>&gt;&gt;&gt; set(locals().keys()) == set(dir())
+True</code></pre></div>
+		<div class="previous-and-next">
+						<span class="pull-left">上一篇: <a id="previous_link" href="index.html" data-toggle="tooltip" data-placement="top" title="上翻页快捷键：左方向键">内置类型</a></span>
+			
+						<span class="pull-right">下一篇: <a id="next_link" href="function.html" data-toggle="tooltip" data-placement="top" title="下翻页快捷键：右方向键">函数</a></span>
+					</div>
+				<div id="jkcomments"></div>
+			</div>
+	<div class="wiki-right fl">
+		<div id="myScrollspy">
+						<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="300">
+							<li><a href="#00d3ad8366159cd83853aa67c8f5095b">句法规则</a></li>
+							<li><a href="#588359deb88c5cc9520e979df8f6dbe6">命名规则</a></li>
+							<li><a href="#8f40db3b25528063f1b6a59602a05cd5">赋值</a></li>
+							<li><a href="#a9400c408441f1f7f6d6954deb05ae9a">表达式</a></li>
+							<li><a href="#9cdd4a789b02863f4444c0f68b42d3e3">运算符</a></li>
+							<li><a href="#f3c723ec65e85eefc7c7d885aa33f64d">类型转换</a></li>
+							<li><a href="#ca48b68b7280423081d2c509d5bc88a1">常用函数</a></li>
+						</ul>
+					</div>
+		<div class="backtotop">
+			<a href="javascript:;" class="btn-backtotop" style="display: none;"><div class="arrow"></div><div class="stick"></div></a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</div>
+</body>
+</html>

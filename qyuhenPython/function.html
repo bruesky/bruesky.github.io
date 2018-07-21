@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+			<meta name="keywords" content="函数,Python 学习笔记,Python教程">
+		
+			<meta name="description" content="当编译器遇到def，会生成创建函数对象指令。也就是说def是执行指令，而不仅仅是个语法关键字。可以在任何地方动态创建函数...">
+		
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta content=always name=referrer>
+	<link rel="stylesheet" href="stylesheets/page_article.min.333ba298.css">
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script>
+		<title>函数 - Python 学习笔记</title>
+	</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="article-header">
+	<div class="container article-container">
+		<span class="title"><a href="">Python 学习笔记</a></span>
+	</div>
+</div>
+<div class="container article-container">
+	<div class="left fl " data-offset-top="300">
+		<div class="left_title"><a class="" href="">刷新页面</a></div>
+		<div class="left_line"></div>
+		<div class="left_title">
+		<p>第一部分 Python 语言</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="basic-environment.html">基本环境</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="index.html">内置类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="expression.html">表达式</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=" active "  href="function.html">函数</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="iterator.html">迭代器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="module.html">模块</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="class.html">类</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="abnormal.html">异常</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="decorator.html">装饰器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="descriptor.html">描述符</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="metaclass.html">元类</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<p>第二部分 标准库</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="string.html">字符串</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-type.html">数据类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="mathematical-operations.html">数学运算</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="files-and-directories.html">文件与目录</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-stored.html">数据存储</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="operating-system.html">操作系统</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="process-communication.html">进程通信</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="application-framework.html">程序框架</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="extended-library.html">第三部分 扩展库</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="appendix.html">附录</a>
+		</div>
+	</div>
+	<div class="main fl">
+		<div class="markdown-body"><h1>函数</h1>
+<p>当编译器遇到 def，会生成创建函数对象指令。也就是说 def 是执行指令，而不仅仅是个语法关键字。可以在任何地方动态创建函数对象。</p>
+<p>一个完整的函数对象由函数和代码两部分组成。其中，PyCodeObject 包含了字节码等执行数据，而 PyFunctionObject 则为其提供了状态信息。</p>
+<p>函数声明：</p>
+<pre><code>def name([arg,... arg = value,... *arg, **kwarg]):
+    suite</code></pre>
+<p>结构定义：</p>
+<pre><code>typedef struct {
+    PyObject_HEAD
+    PyObject *func_code;   // PyCodeObject
+    PyObject *func_globals;  // 所在模块的全局名字空间
+    PyObject *func_defaults;  // 参数默认值列表
+    PyObject *func_closure;  // 闭包列表
+    PyObject *func_doc;   // __doc__
+    PyObject *func_name;   // __name__
+    PyObject *func_dict;   // __dict__
+    PyObject *func_weakreflist;  // 弱引用链表
+    PyObject *func_module;  // 所在 Module
+} PyFunctionObject;</code></pre>
+<h2 id="d9ac9228e8564657bbe9ca5359f95806">创建</h2>
+<p>包括函数在内的所有对象都是第一类对象，可作为其他函数的实参或返回值。</p>
+<ul>
+<li>在名字空间中，名字是唯一主键。因此函数在同一范围内不能 &quot;重载 (overload)&quot;。</li>
+<li>函数总是有返回值。就算没有 return，默认也会返回 None。</li>
+<li>支持递归调用，但不进行尾递归优化。最大深度 sys.getrecursionlimit()。</li>
+</ul>
+<pre><code>&gt;&gt;&gt; def test(name):
+...     if name == "a":
+...         def a(): pass
+...         return a
+...     else:
+...         def b(): pass
+...         return b
+&gt;&gt;&gt; test("a").__name__
+'a'</code></pre>
+<p>不同于用 def 定义复杂函数，lambda 只能是有返回值的简单的表达式。使用赋值语句会引发语法错误，可以考虑用函数代替。</p>
+<pre><code>&gt;&gt;&gt; add = lambda x, y = 0: x + y
+&gt;&gt;&gt; add(1, 2)
+3
+&gt;&gt;&gt; add(3)   # 默认参数
+3
+&gt;&gt;&gt; map(lambda x: x % 2 and None or x, range(10))
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre>
+<h2 id="3d0a2df9ec50c48081e0543b697552b0">参数</h2>
+<p>函数的传参方式灵活多变，可按位置顺序传参，也可不关心顺序用命名实参。</p>
+<pre><code>&gt;&gt;&gt; def test(a, b):
+...     print a, b
+&gt;&gt;&gt; test(1, "a")   # 位置参数
+1 a
+&gt;&gt;&gt; test(b = "x", a = 100) # 命名参数
+100 x</code></pre>
+<p>支持参数默认值。不过要小心，默认值对象在创建函数时生成，所有调用都使用同一对象。如果该默认值是可变类型，那么就如同 C 静态局部变量。</p>
+<pre><code>&gt;&gt;&gt; def test(x, ints = []):
+... ints.append(x)
+... return ints
+&gt;&gt;&gt; test(1)
+[1]
+&gt;&gt;&gt; test(2)    # 保持了上次调用状态。
+[1, 2]
+&gt;&gt;&gt; test(1, [])   # 显式提供实参，不使用默认值。
+[1]
+&gt;&gt;&gt; test(3)    # 再次使用默认值。
+[1, 2, 3]</code></pre>
+<p>默认参数后面不能有其他位置参数，除非是变参。</p>
+<pre><code>&gt;&gt;&gt; def test(a, b = 0, c): pass
+SyntaxError: non-default argument follows default argument
+&gt;&gt;&gt; def test(a, b = 0, *args, **kwargs): pass</code></pre>
+<p>用 *args 收集 &quot;多余&quot; 的位置参数，**kwargs 收集 &quot;额外&quot; 的命名参数。这两个名字只是惯例，可自由命名。</p>
+<pre><code>&gt;&gt;&gt; def test(a, b, *args, **kwargs):
+...     print a, b
+...     print args
+...     print kwargs
+&gt;&gt;&gt; test(1, 2, "a", "b", "c", x = 100, y = 200)
+1 2
+('a', 'b', 'c')
+{'y': 200, 'x': 100}</code></pre>
+<p>变参只能放在所有参数定义的尾部，且 **kwargs 必须是最后一个。</p>
+<pre><code>&gt;&gt;&gt; def test(*args, **kwargs):   # 可以接收任意参数的函数。
+...     print args
+...     print kwargs
+&gt;&gt;&gt; test(1, "a", x = "x", y = "y")  # 位置参数，命名参数。
+(1, 'a')
+{'y': 'y', 'x': 'x'}
+&gt;&gt;&gt; test(1)      # 仅传位置参数。
+(1,)
+{}
+&gt;&gt;&gt; test(x = "x")     # 仅传命名参数。
+()
+{'x': 'x'}</code></pre>
+<p>可 &quot;展开&quot; 序列类型和字典，将全部元素当做多个实参使用。如不展开的话，那仅是单个实参对象。</p>
+<pre><code>&gt;&gt;&gt; def test(a, b, *args, **kwargs):
+...     print a, b
+...     print args
+...     print kwargs
+&gt;&gt;&gt; test(*range(1, 5), **{"x": "Hello", "y": "World"})
+1 2
+(3, 4)
+{'y': 'World', 'x': 'Hello'}</code></pre>
+<p>单个 &quot;*&quot; 展开序列类型，或者仅是字典的主键列表。&quot;**&quot; 展开字典键值对。但如果没有变参收集，展开后多余的参数将引发异常。</p>
+<pre><code>&gt;&gt;&gt; def test(a, b):
+...     print a
+...     print b
+&gt;&gt;&gt; d = dict(a = 1, b = 2)
+&gt;&gt;&gt; test(*d)    # 仅展开 keys()，test("a"、"b")。
+a
+b
+&gt;&gt;&gt; test(**d)    # 展开 items()，test(a = 1, b = 2)。
+1
+2
+&gt;&gt;&gt; d = dict(a = 1, b = 2, c = 3)
+&gt;&gt;&gt; test(*d)    # 因为没有位置变参收集多余的 "c"，导致出错。
+TypeError: test() takes exactly 2 arguments (3 given)
+&gt;&gt;&gt; test(**d)    # 因为没有命名变参收集多余的 "c = 3"，导致出错。
+TypeError: test() got an unexpected keyword argument 'c'</code></pre>
+<p>lambda 同样支持默认值和变参，使用方法完全一致。</p>
+<pre><code>&gt;&gt;&gt; test = lambda a, b = 0, *args, **kwargs:   \
+...     sum([a, b] + list(args) + kwargs.values())
+&gt;&gt;&gt; test(1, *[2, 3, 4], **{"x": 5, "y": 6})
+21</code></pre>
+<h2 id="4705b884979dda953271711f267c931f">作用域</h2>
+<p>函数形参和内部变量都存储在 locals 名字空间中。</p>
+<pre><code>&gt;&gt;&gt; def test(a, *args, **kwargs):
+...     s = "Hello, World"
+...     print locals()
+&gt;&gt;&gt; test(1, "a", "b", x = 10, y = "hi")
+{
+    'a': 1,
+    'args': ('a', 'b'),
+    'kwargs': {'y': 'hi', 'x': 10}
+    's': 'Hello, World',
+}</code></pre>
+<p>除非使用 global、nonlocal 特别声明，否则在函数内部使用赋值语句，总是在 locals 名字空间中新建一个对象关联。注意：&quot;赋值&quot; 是指名字指向新的对象，而非通过名字改变对象状态。</p>
+<pre><code>&gt;&gt;&gt; x = 10
+&gt;&gt;&gt; hex(id(x))
+'0x7fb8e04105e0'
+&gt;&gt;&gt; def test():
+...     x = "hi"
+...     print hex(id(x)), x
+&gt;&gt;&gt; test()    # 两个 x 指向不同的对象。
+0x10af2b490 hi
+&gt;&gt;&gt; x     # 外部变量没有被修改。
+10</code></pre>
+<p>如果仅仅是引用外部变量，那么按 LEGB 顺序在不同作用域查找该名字。</p>
+<pre><code>名字查找顺序: locals -&gt; enclosing function -&gt; globals -&gt; __builtins__</code></pre>
+<ul>
+<li>locals: 函数内部名字空间，包括局部变量和形参。</li>
+<li>enclosing function: 外部嵌套函数的名字空间。</li>
+<li>globals: 函数定义所在模块的名字空间。</li>
+<li><strong>builtins</strong>: 内置模块的名字空间。
+想想看，如果将对象引入 <strong>builtins</strong> 名字空间，那么就可以在任何模块中直接访问，如同内置函数那样。不过鉴于 <strong>builtins</strong> 的特殊性，这似乎不是个好主意。</li>
+</ul>
+<pre><code>&gt;&gt;&gt; __builtins__.b = "builtins"
+&gt;&gt;&gt; g = "globals"
+&gt;&gt;&gt; def enclose():
+...     e = "enclosing"
+...     def test():
+...         l = "locals"
+...         print l
+...         print e
+...         print g
+...         print b
+...
+...         return test
+&gt;&gt;&gt; t = enclose()
+&gt;&gt;&gt; t()
+locals
+enclosing
+globals
+builtins</code></pre>
+<p>通常内置模块 <strong>builtin</strong> 在本地名字空间的名字是 <strong>builtins</strong> (多了个 s 结尾)。但要记住这说法一点也不靠谱，某些时候它又会莫名其妙地指向 <strong>builtin</strong>.<strong>dict</strong>。如实在要操作该模块，建议显式 import <strong>builtin</strong>。</p>
+<pre><code>27.3. __builtin__ — Built-in objects
+CPython implementation detail: Most modules have the name __builtins__ (note the 's') made available as partof their globals. The value of __builtins__ is normally either this module or the value of this modules’s __dict__attribute. Since this is an implementation detail, it may not be used by alternate implementations of Python.</code></pre>
+<p>现在，获取外部空间的名字没问题了，但如果想将外部名字关联到一个新对象，就需要使用 global关键字，指明要修改的是 globals 名字空间。Python 3 还提供了 nonlocal 关键字，用来修改外部嵌套函数名字空间，可惜 2.7 没有。</p>
+<pre><code>&gt;&gt;&gt; x = 100
+&gt;&gt;&gt; hex(id(x))
+0x7f9a9264a028
+&gt;&gt;&gt; def test():
+...     global x, y  # 声明 x, y 是 globals 名字空间中的。
+...     x = 1000   # globals()["x"] = 1000
+...     y = "Hello, World" # globals()["y"] = "..."。 新建名字。
+...     print hex(id(x))
+&gt;&gt;&gt; test()    # 可以看到 test.x 引用的是外部变量 x。
+0x7fdfba4abb30
+&gt;&gt;&gt; print x, hex(id(x))  # x 被修改。外部 x 指向新整数对象 1000。
+1000 0x7fdfba4abb30
+&gt;&gt;&gt; x, y    # globals 名字空间中出现了 y。
+(1000, 'Hello, World')</code></pre>
+<p>没有 nonlocal 终归有点不太方便，要实现类似功能稍微有点麻烦。</p>
+<pre><code>&gt;&gt;&gt; from ctypes import pythonapi, py_object
+&gt;&gt;&gt; from sys import _getframe
+&gt;&gt;&gt; def nonlocal(**kwargs):
+...     f = _getframe(2)
+...     ns = f.f_locals
+...     ns.update(kwargs)
+...     pythonapi.PyFrame_LocalsToFast(py_object(f), 0)
+&gt;&gt;&gt; def enclose():
+...     x = 10
+...
+...     def test():
+...         nonlocal(x = 1000)
+...
+...     test()
+...     print x
+&gt;&gt;&gt; enclose()
+1000</code></pre>
+<p>这种实现通过 _getframe() 来获取外部函数堆栈帧名字空间，存在一些限制。因为拿到是调用者，而不一定是函数创建者。</p>
+<p>需要注意，名字作用域是在编译时确定的。比如下面例子的结果，会和设想的有很大差异。究其原因，是编译时并不存在 locals x 这个名字。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     locals()["x"] = 10
+...     print x
+&gt;&gt;&gt; test()
+NameError: global name 'x' is not defined</code></pre>
+<p>要解决这个问题，可动态访问名字，或使用 exec 语句，解释器会做动态化处理。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     exec ""    # 空语句。
+...     locals()["x"] = 10
+...     print x
+&gt;&gt;&gt; test()
+10
+&gt;&gt;&gt; def test():
+...     exec "x = 10"   # exec 默认使用当前名字空间。
+...     print x
+&gt;&gt;&gt; test()
+10</code></pre>
+<p>如果函数中包含 exec 语句，编译器生成的名字指令会依照 LEGB 规则搜索。继续看下面的例子。</p>
+<pre><code>&gt;&gt;&gt; x = "abc"
+&gt;&gt;&gt; def test():
+...     print x
+...     exec "x = 10"
+...     print x
+&gt;&gt;&gt; test()
+abc
+10</code></pre>
+<p>解释器会将 locals 名字复制到 FAST 区域来优化访问速度，因此直接修改 locals 名字空间并不会影响该区域。解决方法还是用 exec。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     x = 10
+...
+...     locals()["x"] = 100 # 该操作不会影响 FAST 区域，只不过指向一个新对象。
+...     print x   # 使用 LOAD_FAST 访问 FAST 区域名字，依然是原对象。
+...
+...     exec "x = 100"  # 同时刷新 locals 和 FAST。
+...     print x
+&gt;&gt;&gt; test()
+10
+100</code></pre>
+<p>另外，编译期作用域不受执行期条件影响。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     if False:
+...         global x  # 尽管此语句永不执行，但编译器依然会将 x 当做 globals 名字。
+...     x = 10
+...     print globals()["x"] is x
+&gt;&gt;&gt; test()
+True
+&gt;&gt;&gt; x
+10
+&gt;&gt;&gt; def test():
+...     if False:
+...         x = 10   # 同理，x 是 locals 名字。后面出错也就很正常了。
+...     print x
+&gt;&gt;&gt; test()
+UnboundLocalError: local variable 'x' referenced before assignment</code></pre>
+<p>其中细节，可以用 dis 反编译查看生成的字节指令。</p>
+<h2 id="0edb4c85035584e93bb32a3c516c29b4">闭包</h2>
+<p>闭包是指：当函数离开创建环境后，依然持有其上下文状态。比如下面的 a 和 b，在离开 test 函数后，依然持有 test.x 对象。</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     x = [1, 2]
+...     print hex(id(x))
+...
+...     def a():
+...         x.append(3)
+...         print hex(id(x))
+...
+...     def b():
+...         print hex(id(x)), x
+...
+...     return a, b
+&gt;&gt;&gt; a, b = test()
+0x109b925a8     # test.x
+&gt;&gt;&gt; a()
+0x109b925a8     # 指向 test.x
+&gt;&gt;&gt; b()
+0x109b925a8 [1, 2, 3]</code></pre>
+<p>实现方式很简单，以上例来解释：</p>
+<p>test 在创建 a 和 b 时，将它们所引用的外部对象 x 添加到 func_closure 列表中。因为 x 引用计数增加了，所以就算 test 堆栈帧没有了，x 对象也不会被回收。</p>
+<pre><code>&gt;&gt;&gt; a.func_closure
+(&lt;cell at 0x109e0aef8: list object at 0x109b925a8&gt;,)
+&gt;&gt;&gt; b.func_closure
+(&lt;cell at 0x109e0aef8: list object at 0x109b925a8&gt;,)</code></pre>
+<p>为什么用 function.func_closure，而不是堆栈帧的名字空间呢？那是因为 test 仅仅返回两个函数对象，并没有调用它们，自然不可能为它们创建堆栈帧。这样一来，就导致每次返回的 a 和 b 都是新建对象，否则这个闭包状态就被覆盖了。</p>
+<pre><code>&gt;&gt;&gt; def test(x):
+...     def a():
+...         print x
+...
+...     print hex(id(a))
+...     return a
+&gt;&gt;&gt; a1 = test(100)    # 每次创建 a 都提供不同的参数。
+0x109c700c8
+&gt;&gt;&gt; a2 = test("hi")   # 可以看到两次返回的函数对象并不相同。
+0x109c79f50
+&gt;&gt;&gt; a1()     # a1 的状态没有被 a2 破坏。
+100
+&gt;&gt;&gt; a2()
+hi
+&gt;&gt;&gt; a1.func_closure   # a1、a2 持有的闭包列表是不同的。
+(&lt;cell at 0x109e0cf30: int object at 0x7f9a92410ce0&gt;,)
+&gt;&gt;&gt; a2.func_closure
+(&lt;cell at 0x109d3ead0: str object at 0x109614490&gt;,)
+&gt;&gt;&gt; a1.func_code is a2.func_code # 这个很好理解，字节码没必要有多个。
+True</code></pre>
+<p>通过 func_code，可以获知闭包所引用的外部名字。</p>
+<ul>
+<li>co_cellvars: 被内部函数引用的名字列表。</li>
+<li>co_freevars: 当前函数引用外部的名字列表。</li>
+</ul>
+<pre><code>&gt;&gt;&gt; test.func_code.co_cellvars  # 被内部函数 a 引用的名字。
+('x',)
+&gt;&gt;&gt; a.func_code.co_freevars  # a 引用外部函数 test 中的名字。
+('x',)</code></pre>
+<p>使用闭包，还需注意 &quot;延迟获取&quot; 现象。看下面的例子：</p>
+<pre><code>&gt;&gt;&gt; def test():
+...     for i in range(3):
+...         def a():
+...             print i
+...     yield a
+&gt;&gt;&gt; a, b, c = test()
+&gt;&gt;&gt; a(), b(), c()
+2
+2
+2</code></pre>
+<p>为啥输出的都是 2 呢？</p>
+<p>首先，test 只是返回函数对象，并没有执行。其次，test 完成 for 循环时，i 已经等于 2，所以执行 a、b、c 时，它们所持有 i 自然也就等于 2。</p>
+<h2 id="c46b509f7f5cced66aa472eedcacded7">堆栈帧</h2>
+<p>Python 堆栈帧基本上就是对 x86 的模拟，用指针对应 BP、SP、IP 寄存器。堆栈帧成员包括函数执行所需的名字空间、调用堆栈链表、异常状态等。</p>
+<pre><code>typedef struct _frame {
+    PyObject_VAR_HEAD
+    struct _frame *f_back; // 调用堆栈 (Call Stack) 链表
+    PyCodeObject *f_code; // PyCodeObject
+    PyObject *f_builtins; // builtins 名字空间
+    PyObject *f_globals;  // globals 名字空间
+    PyObject *f_locals;  // locals 名字空间
+    PyObject **f_valuestack; // 和 f_stacktop 共同维护运行帧空间，相当于 BP 寄存器。
+    PyObject **f_stacktop; // 运行栈顶，相当于 SP 寄存器的作用。
+    PyObject *f_trace;  // Trace function
+    PyObject *f_exc_type, *f_exc_value, *f_exc_traceback; // 记录当前栈帧的异常信息
+    PyThreadState *f_tstate; // 所在线程状态
+    int f_lasti;   // 上一条字节码指令在 f_code 中的偏移量，类似 IP 寄存器。
+    int f_lineno;   // 与当前字节码指令对应的源码行号
+    ... ...
+    PyObject *f_localsplus[1];  // 动态申请的一段内存，用来模拟 x86 堆栈帧所在内存段。
+} PyFrameObject;</code></pre>
+<p>可使用 sys._getframe(0) 或 inspect.currentframe() 获取当前堆栈帧。其中 _getframe() 深度参数为 0 表示当前函数，1 表示调用堆栈的上个函数。除用于调试外，还可利用堆栈帧做些有意思的事情。</p>
+<p><strong>权限管理</strong></p>
+<p>通过调用堆栈检查函数 Caller，以实现权限管理。</p>
+<pre><code>&gt;&gt;&gt; def save():
+...     f = _getframe(1)
+...     if not f.f_code.co_name.endswith("_logic"): # 检查 Caller 名字，限制调用者身份。
+...         raise Exception("Error")   # 还可以检查更多信息。
+...     print "ok"
+&gt;&gt;&gt; def test(): save()
+&gt;&gt;&gt; def test_logic(): save()
+&gt;&gt;&gt; test()
+Exception: Error
+&gt;&gt;&gt; test_logic()
+ok</code></pre>
+<p><strong>上下文</strong></p>
+<p>通过调用堆栈，我们可以隐式向整个执行流程传递上下文对象。 inspect.stack 比 frame.f_back更方便一些。</p>
+<pre><code>&gt;&gt;&gt; import inspect
+&gt;&gt;&gt; def get_context():
+...     for f in inspect.stack():   # 循环调用堆栈列表。
+...         context = f[0].f_locals.get("context") # 查看该堆栈帧名字空间中是否有目标。
+...         if context: return context   # 找到了就返回，并终止查找循环。
+&gt;&gt;&gt; def controller():
+...     context = "ContextObject"   # 将 context 添加到 locals 名字空间。
+...     model()
+&gt;&gt;&gt; def model():
+...     print get_context()    # 通过调用堆栈查找 context。
+&gt;&gt;&gt; controller()      # 测试通过。
+ContextObject</code></pre>
+<p>sys._current_frames 返回所有线程的当前堆栈帧对象。</p>
+<p>虚拟机会缓存 200 个堆栈帧复用对象，以获得更好的执行性能。整个程序跑下来，天知道要创建多少个这类对象。</p>
+<h2 id="5a009134f36dd6ea110bc429ad19ae19">包装</h2>
+<p>用 functools.partial() 可以将函数包装成更简洁的版本。</p>
+<pre><code>&gt;&gt;&gt; from functools import partial
+&gt;&gt;&gt; def test(a, b, c):
+...     print a, b, c
+&gt;&gt;&gt; f = partial(test, b = 2, c = 3) # 为后续参数提供命名默认值。
+&gt;&gt;&gt; f(1)
+1 2 3
+&gt;&gt;&gt; f = partial(test, 1, c = 3)  # 为前面的位置参数和后面的命名参数提供默认值。
+&gt;&gt;&gt; f(2)
+1 2 3</code></pre>
+<p>partial 会按下面的规则合并参数。</p>
+<pre><code>def partial(func, *d_args, **d_kwargs):
+    def wrap(*args, **kwargs):
+        new_args = d_args + args  # 合并位置参数，partial 提供的默认值优先。
+        new_kwargs = d_kwargs.copy()  # 合并命名参数，partial 提供的会被覆盖。
+        new_kwargs.update(kwargs)
+        return func(*new_args, **new_kwargs)
+    return wrap</code></pre>
+<p>与函数相关内容很多，涉及虚拟机底层实现。还要分清函数和对象方法的差别，后面会详细说明。</p></div>
+		<div class="previous-and-next">
+						<span class="pull-left">上一篇: <a id="previous_link" href="expression.html" data-toggle="tooltip" data-placement="top" title="上翻页快捷键：左方向键">表达式</a></span>
+			
+						<span class="pull-right">下一篇: <a id="next_link" href="iterator.html" data-toggle="tooltip" data-placement="top" title="下翻页快捷键：右方向键">迭代器</a></span>
+					</div>
+				<div id="jkcomments"></div>
+			</div>
+	<div class="wiki-right fl">
+		<div id="myScrollspy">
+						<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="300">
+							<li><a href="#d9ac9228e8564657bbe9ca5359f95806">创建</a></li>
+							<li><a href="#3d0a2df9ec50c48081e0543b697552b0">参数</a></li>
+							<li><a href="#4705b884979dda953271711f267c931f">作用域</a></li>
+							<li><a href="#0edb4c85035584e93bb32a3c516c29b4">闭包</a></li>
+							<li><a href="#c46b509f7f5cced66aa472eedcacded7">堆栈帧</a></li>
+							<li><a href="#5a009134f36dd6ea110bc429ad19ae19">包装</a></li>
+						</ul>
+					</div>
+		<div class="backtotop">
+			<a href="javascript:;" class="btn-backtotop" style="display: none;"><div class="arrow"></div><div class="stick"></div></a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</div>
+</body>
+</html>

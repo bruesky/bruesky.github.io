@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+			<meta name="keywords" content="描述符,Python 学习笔记,Python教程">
+		
+			<meta name="description" content="很少有人会去刻意关注描述符(Descriptor)，尽管它时时刻刻以属性、方法的身份出现。描述符协议：如果没有定义get...">
+		
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta content=always name=referrer>
+	<link rel="stylesheet" href="stylesheets/page_article.min.333ba298.css">
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script>
+		<title>描述符 - Python 学习笔记</title>
+	</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="article-header">
+	<div class="container article-container">
+		<span class="title"><a href="">Python 学习笔记</a></span>
+	</div>
+</div>
+<div class="container article-container">
+	<div class="left fl " data-offset-top="300">
+		<div class="left_title"><a class="" href="">刷新页面</a></div>
+		<div class="left_line"></div>
+		<div class="left_title">
+		<p>第一部分 Python 语言</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="basic-environment.html">基本环境</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="index.html">内置类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="expression.html">表达式</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="function.html">函数</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="iterator.html">迭代器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="module.html">模块</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="class.html">类</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="abnormal.html">异常</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="decorator.html">装饰器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=" active "  href="descriptor.html">描述符</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="metaclass.html">元类</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<p>第二部分 标准库</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="string.html">字符串</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-type.html">数据类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="mathematical-operations.html">数学运算</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="files-and-directories.html">文件与目录</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-stored.html">数据存储</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="operating-system.html">操作系统</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="process-communication.html">进程通信</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="application-framework.html">程序框架</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="extended-library.html">第三部分 扩展库</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="appendix.html">附录</a>
+		</div>
+	</div>
+	<div class="main fl">
+		<div class="markdown-body"><h1>描述符</h1>
+<p>很少有人会去刻意关注描述符 (Descriptor)，尽管它时时刻刻以属性、方法的身份出现。</p>
+<p>描述符协议：</p>
+<pre><code>__get__(self, instance, owner) --&gt; return value
+__set__(self, instance, value)
+__delete__(self, instance)</code></pre>
+<p>描述符对象以类型 (owner class) 成员的方式出现，且最少要实现一个协议方法。最常见的描述符有 property、staticmethod、classsmethod。访问描述符类型成员时，解释器会自动调用与行为相对应的协议方法。</p>
+<ul>
+<li>实现 <strong>get</strong> 和 <strong>set</strong> 方法，称为 data descriptor。</li>
+<li>仅有 <strong>get</strong> 方法的，称为 non-data descriptor。</li>
+<li><strong>get</strong> 对 owner_class、owner_instance 访问有效。</li>
+<li><strong>set</strong>、<strong>delete</strong> 仅对 owner_instance 访问有效。</li>
+</ul>
+<pre><code>&gt;&gt;&gt; class MyDescriptor(object):
+...     def __get__(self, instance, owner):  # 本例中 owner 是 class Data。
+...         print "get:", instance, owner
+...         return hex(id(instance))
+...
+...     def __set__(self, instance, value):
+...         print "set:", instance, value
+...
+...     def __delete__(self, instance):
+...         print "del:", instance
+&gt;&gt;&gt; class Data(object):
+...     x = MyDescriptor()
+&gt;&gt;&gt; d = Data()
+&gt;&gt;&gt; d.x       # __get__ 的返回值。
+get: &lt;__main__.Data object at 0x107a23790&gt; &lt;class '__main__.Data'&gt;
+'0x107a23790'
+&gt;&gt;&gt; d.x = 100      # d 被当做 instance 实参。
+set: &lt;__main__.Data object at 0x107a23790&gt; 100
+&gt;&gt;&gt; del d.x       # d 被当做 instance 实参。
+del: &lt;__main__.Data object at 0x107a23790&gt;
+&gt;&gt;&gt; Data.x       # 以 owner 类型访问时，__get__ 有效。
+get: None &lt;class '__main__.Data'&gt;   # instance = None
+'0x106a96148'
+&gt;&gt;&gt; Data.x = 1      # __set__ 对 class 调用无效。
+        # 因此 Data.x 被重新赋值。
+&gt;&gt;&gt; type(Data.x)
+&lt;type 'int'&gt;</code></pre>
+<p>如果没有定义 <strong>get</strong> 方法，那么直接返回描述符对象，不会有默认 <strong>get</strong> 实现。</p>
+<p><strong>property</strong></p>
+<p>属性总是 data descriptor，这和是否提供 setter 无关。其优先级总是高过同名实例字段，如果没有提供 setter，<strong>set</strong> 方法会阻止赋值操作。</p>
+<pre><code>&gt;&gt;&gt; class Data(object):
+...     oid = property(lambda s: hex(id(s)))
+&gt;&gt;&gt; hasattr(Data.oid, "__set__")
+True
+&gt;&gt;&gt; d = Data()
+&gt;&gt;&gt; d.oid
+'0x107a23a90'
+&gt;&gt;&gt; d.oid = 123
+AttributeError: can't set attribute</code></pre>
+<p><strong>non-data</strong></p>
+<p>non-data descriptor 会被同名实例字段抢先。</p>
+<pre><code>&gt;&gt;&gt; class Descriptor(object):
+...     def __get__(self, instance, owner):
+...         print "__get__"
+&gt;&gt;&gt; class Data(object):
+...     x = Descriptor()
+&gt;&gt;&gt; d = Data()
+&gt;&gt;&gt; d.x    # 描述符有效。
+__get__
+&gt;&gt;&gt; d.__dict__   # instance.__dict__ 没有同名字段。
+{}
+&gt;&gt;&gt; d.x = 123   # 没有 __set__，创建同名实例字段。
+&gt;&gt;&gt; d.__dict__  
+{'x': 123}
+&gt;&gt;&gt; d.x    # 依据成员查找规则，实例字段被优先命中。
+123
+&gt;&gt;&gt; Data.x    # 描述符在 owner_class.__dict___。
+__get__</code></pre>
+<p><strong>bound method</strong></p>
+<p>通过描述符，我们可以了解实例方法 self 参数是如何隐式传递的。</p>
+<pre><code>&gt;&gt;&gt; class Data(object):
+...     def test(self): print "test"
+&gt;&gt;&gt; d = Data()
+&gt;&gt;&gt; d.test      # 只有 bound method 才会隐式传递 self。
+&lt;bound method Data.test of &lt;__main__.Data object at 0x10740b050&gt;&gt;
+&gt;&gt;&gt; Data.test.__get__(d, Data)   # 向 __get__ 传递 instance 参数。
+&lt;bound method Data.test of &lt;__main__.Data object at 0x10740b050&gt;&gt;
+&gt;&gt;&gt; Data.test     # unbound method 需显式传递 self。
+&lt;unbound method Data.test&gt;
+&gt;&gt;&gt; Data.test.__get__(None, Data)  # instance 为 None。
+&lt;unbound method Data.test&gt;</code></pre>
+<p>现在可以看出，bound/unbound 是 <strong>get</strong> 造成的，关键就是 instance 参数。那么 self 参数存在哪？由谁替我们自动传递 self 参数呢？</p>
+<pre><code>&gt;&gt;&gt; bm = Data.test.__get__(d, Data)
+&gt;&gt;&gt; bm.__func__     # 实际的目标函数 test。
+&lt;function test at 0x107404488&gt;
+&gt;&gt;&gt; bm.__self__     # __get__ instance 参数，也就是 self。
+&lt;__main__.Data object at 0x10740b050&gt;
+&gt;&gt;&gt; bm.__call__()     # __call__ 内部替我们传递 self ！
+test
+&gt;&gt;&gt; unbm = Data.test.__get__(None, Data) # unbound method
+&gt;&gt;&gt; unbm.__func__
+&lt;function test at 0x107404488&gt;
+&gt;&gt;&gt; unbm.__self__ is None   # instance == None, self == None。
+True
+&gt;&gt;&gt; unbm.__call__()    # __call__ 会检查 __self__。
+TypeError: unbound method test() must be called with Data instance as first argument
+(got nothing instead)
+&gt;&gt;&gt; unbm.__call__(d)    # 只好给 __call__ 有效的 instance。
+test</code></pre>
+<p><strong>classmethod</strong></p>
+<p>不同于 staticmethod，classmethod 会 bound 类型对象。</p>
+<pre><code>&gt;&gt;&gt; class Data(object):
+...     @classmethod
+...     def test(cls): print cls
+&gt;&gt;&gt; Data.test.__get__(None, Data)
+&lt;bound method type.test of &lt;class '__main__.Data'&gt;&gt;
+&gt;&gt;&gt; m = Data.test.__get__(None, Data)
+&gt;&gt;&gt; m.__self__     # 类型对象，也就是隐式 cls 参数。
+&lt;class '__main__.Data'&gt;
+&gt;&gt;&gt; m.__call__()
+&lt;class '__main__.Data'&gt;</code></pre></div>
+		<div class="previous-and-next">
+						<span class="pull-left">上一篇: <a id="previous_link" href="decorator.html" data-toggle="tooltip" data-placement="top" title="上翻页快捷键：左方向键">装饰器</a></span>
+			
+						<span class="pull-right">下一篇: <a id="next_link" href="metaclass.html" data-toggle="tooltip" data-placement="top" title="下翻页快捷键：右方向键">元类</a></span>
+					</div>
+				<div id="jkcomments"></div>
+			</div>
+	<div class="wiki-right fl">
+		<div id="myScrollspy">
+					</div>
+		<div class="backtotop">
+			<a href="javascript:;" class="btn-backtotop" style="display: none;"><div class="arrow"></div><div class="stick"></div></a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</div>
+</body>
+</html>

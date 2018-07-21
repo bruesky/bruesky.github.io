@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+			<meta name="keywords" content="进程通信,Python 学习笔记,Python教程">
+		
+			<meta name="description" content="执行程序，获取返回码或输出信息。call:返回ExitCode。check_call:如果ExitCode=0，抛出Ca...">
+		
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta content=always name=referrer>
+	<link rel="stylesheet" href="stylesheets/page_article.min.333ba298.css">
+<script src="stylesheets/jquery.min.js"></script>
+<script src="stylesheets/page_article.min.f4e6f530.js"></script>
+		<title>进程通信 - Python 学习笔记</title>
+	</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="article-header">
+	<div class="container article-container">
+		<span class="title"><a href="">Python 学习笔记</a></span>
+	</div>
+</div>
+<div class="container article-container">
+	<div class="left fl " data-offset-top="300">
+		<div class="left_title"><a class="" href="">刷新页面</a></div>
+		<div class="left_line"></div>
+		<div class="left_title">
+		<p>第一部分 Python 语言</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="basic-environment.html">基本环境</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="index.html">内置类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="expression.html">表达式</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="function.html">函数</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="iterator.html">迭代器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="module.html">模块</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="class.html">类</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="abnormal.html">异常</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="decorator.html">装饰器</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="descriptor.html">描述符</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="metaclass.html">元类</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<p>第二部分 标准库</p>
+		</div>
+			<div class="left_name">
+		<div class="left_title">
+		<a class=""  href="string.html">字符串</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-type.html">数据类型</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="mathematical-operations.html">数学运算</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="files-and-directories.html">文件与目录</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="data-stored.html">数据存储</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="operating-system.html">操作系统</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=" active "  href="process-communication.html">进程通信</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="application-framework.html">程序框架</a>
+		</div>
+				</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="extended-library.html">第三部分 扩展库</a>
+		</div>
+			<div class="left_line"></div>
+		<div class="left_title">
+		<a class=""  href="appendix.html">附录</a>
+		</div>
+	</div>
+	<div class="main fl">
+		<div class="markdown-body"><h1>进程通信</h1>
+<h2 id="c246f93a794588f0eff7e71b3e981790">subprocess</h2>
+<p>执行程序，获取返回码或输出信息。</p>
+<ul>
+<li>call: 返回 ExitCode。</li>
+<li>check_call: 如果 ExitCode = 0，抛出 CalledProcessError 异常。</li>
+<li>check_output: 返回输出信息。ExitCode = 0 抛出异常。</li>
+</ul>
+<p>命令行参数可以用 shlex.split 分解成列表。</p>
+<pre><code>&gt;&gt;&gt; from subprocess import *
+&gt;&gt;&gt; from shlex import split
+&gt;&gt;&gt; s = check_output(split("ls -l"))
+&gt;&gt;&gt; print s
+total 0
+drwx------+ 4 yuhen staff 136 1 11 07:40 Desktop
+drwx------+ 10 yuhen staff 340 1 4 01:53 Documents
+drwx------+ 4 yuhen staff 136 1 11 08:35 Downloads
+drwx------@ 56 yuhen staff 1904 1 11 08:28 Library
+drwx------+ 3 yuhen staff 102 9 22 15:20 Movies
+drwx------+ 5 yuhen staff 170 1 9 19:37 Music
+drwx------+ 5 yuhen staff 170 1 3 21:14 Pictures
+drwxr-xr-x+ 4 yuhen staff 136 9 15 16:21 Public</code></pre>
+<p>如果需要获取 ExitCode，又不想看到输出信息。可以将 stdout 重定位到 /dev/null。</p>
+<pre><code>&gt;&gt;&gt; null = open(os.devnull, "w")
+&gt;&gt;&gt; call(split("ls -l"), stdout = null, stderr = null)
+0</code></pre>
+<p>官方建议用 subprocess 代替 os.system、os.spawn<em>、os.popen</em>、popen2.<em>、commands.</em>这个传统用法。基于以后向 Python 3 迁移的需要，还是放弃所有打上 obsolete 标记的库。</p>
+<pre><code>&gt;&gt;&gt; from subprocess import Popen, PIPE
+&gt;&gt;&gt; Popen('find . -name "*.py" | xargs ls -l', shell=True).wait()
+-rwxr-xr-x 1 yuhen staff 286 5 29 19:24 ./main.py
+-rw-r--r-- 1 yuhen staff 76 6 7 17:49 ./test.py</code></pre>
+<p>可以用 PIPE 改变输入输出对象。</p>
+<pre><code>&gt;&gt;&gt; p = Popen('find . -name "*.py" | xargs ls -l', shell=True, stdout=PIPE)
+&gt;&gt;&gt; p.pid
+71474
+&gt;&gt;&gt; print p.stdout.read()
+-rwxr-xr-x 1 yuhen staff 286 5 29 19:24 ./main.py
+-rw-r--r-- 1 yuhen staff 76 6 7 17:49 ./test.py
+&gt;&gt;&gt; p.wait()
+0</code></pre>
+<p>除使用简便函数外，还可以创建 Popen 对象以获取更细节的控制。subprocess 不能控制终端和 TTY 交互程序，建议使用第三方库 Fabric 或 pexpect。进程信息可以用 psutil 获取。</p>
+<h2 id="537e246856c4fb83a72944520c8b5ab3">22.2 signal</h2>
+<p>信号是软中断，提供了一种异步事件通知机制。Python 默认已经安装了一些信号处理器，比如 SIGPIPE 被忽略，SIGINT 引发 KeyboardInterrupt 异常，捕获 SIGTERM 调用退出函数。</p>
+<p><strong>常用信号</strong></p>
+<ul>
+<li>SIGINT: 用户中断 (ctrl + c)。</li>
+<li>SIGTERM: 由 kill() 发送，进程终止。</li>
+<li>SIGCHLD: 子进程终止。</li>
+<li>SIGHUP: 终端会话终止。</li>
+<li>SIGSTP: 进程暂停 (ctrl + z)。</li>
+<li>SIGALRM: 告警。</li>
+</ul>
+<p>注意: 信号 SIGKILL、SIGSTOP 不能被捕获。</p>
+<p><strong>signal</strong></p>
+<p>仅能在主线程调用 signal() 注册信号处理器函数，它会移除当前处理动作。可用 getsignal() 获取，在需要时重新注册。有两个特殊的处理器：SIG_IGN 忽略信号，SIG_DFL 默认处理。</p>
+<p>试着用 SIGINT 代替 KeyboardInterrupt 异常来处理用户中断。</p>
+<pre><code>from signal import *
+from time import time, sleep
+def sig_handler(signum, frame):
+    print "exit"
+    exit(0)
+def main():
+    signal(SIGINT, sig_handler)
+    while True:
+        sleep(1)
+        print time()
+if __name__ == "__main__":
+    main()</code></pre>
+<p>输出:</p>
+<pre><code>$ ./main.py
+1357987332.33
+1357987333.33
+1357987334.33
+^Cexit</code></pre>
+<p>中断信号被拦截，我们可以自主决定是否终止进程。在 GDB 里，用 SIGINT 来处理调试中断。也有一些软件用 SIGUSR1、SIGUSR2 作为外部通知事件，比如重启什么的。信号处理会被带入 fork()创建的子进程。</p>
+<p><strong>pause</strong></p>
+<p>函数 pause() 会使进程休眠，直到进程接收到信号。信号要么被处理，要么终止进程。</p>
+<pre><code>def sig_handler(signum, frame):
+    print "sig:", signum
+def main():
+    signal(SIGUSR1, sig_handler)
+    while True:
+        print time()
+        pause()</code></pre>
+<p>如果收到 SIGUSR1 信号，则进程苏醒后显示时间，然后再次休眠。如是其他信号，进程终止。</p>
+<p><strong>alarm</strong></p>
+<p>在 n 秒后发送一个 SIGALRM 告警信号。或用 0 秒取消所有尚未到期的告警。</p>
+<pre><code>signal(SIGALRM, sig_alarm) # 捕获信号
+alarm(2)    # 2 秒后发送告警信号。仅一次。</code></pre>
+<p><strong>timer</strong></p>
+<p>用来设置在 seconds 秒后发出信号，并在此以后每隔 interval 秒重复发出信号。参数 which 决定了发出何种信号。</p>
+<ul>
+<li>ITIMER_REAL: SIGALRM</li>
+<li>ITIMER_VIRTUAL: SIGVTALRM</li>
+<li>ITIMER_PROF: SIGPROF</li>
+</ul>
+<pre><code>signal(SIGALRM, sig_alarm)
+setitimer(ITIMER_REAL, 2, 5) # 2 秒后首次发出信号，随后每隔 5 秒发一次。</code></pre>
+<p>将 seconds 设置为 0，将清除定时器。</p></div>
+		<div class="previous-and-next">
+						<span class="pull-left">上一篇: <a id="previous_link" href="operating-system.html" data-toggle="tooltip" data-placement="top" title="上翻页快捷键：左方向键">操作系统</a></span>
+			
+						<span class="pull-right">下一篇: <a id="next_link" href="application-framework.html" data-toggle="tooltip" data-placement="top" title="下翻页快捷键：右方向键">程序框架</a></span>
+					</div>
+				<div id="jkcomments"></div>
+			</div>
+	<div class="wiki-right fl">
+		<div id="myScrollspy">
+						<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="300">
+							<li><a href="#c246f93a794588f0eff7e71b3e981790">subprocess</a></li>
+							<li><a href="#537e246856c4fb83a72944520c8b5ab3">22.2 signal</a></li>
+						</ul>
+					</div>
+		<div class="backtotop">
+			<a href="javascript:;" class="btn-backtotop" style="display: none;"><div class="arrow"></div><div class="stick"></div></a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+</div>
+</body>
+</html>
