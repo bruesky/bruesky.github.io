@@ -1,1 +1,1 @@
-# [qyuhenPython](http://muicoder.github.io/qyuhenPython/)
+# [qyuhenPython](http://bruesky.github.io/qyuhenPython/)
