@@ -1,1 +1,1 @@
-# [linux_basic](https://muicoder.github.io/linux_basic/)
+# [linux_basic](https://bruesky.github.io/linux_basic/)
