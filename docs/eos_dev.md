@@ -20,7 +20,21 @@ cd eos && ./eosio_build.sh
 编译成功后
 ![Architecture logo](https://files.readme.io/8f31cfd-Basic-EOSIO-System-Architecture.png)
 
-
+```
+├── config
+│   └── config.ini
+└── data
+    ├── blocks
+    │   ├── blocks.index
+    │   ├── blocks.log
+    │   └── reversible
+    │       ├── shared_memory.bin
+    │       └── shared_memory.meta
+    └── state
+        ├── forkdb.dat
+        ├── shared_memory.bin
+        └── shared_memory.meta
+```      
 
 ## <a name="src-con">源码架构</a>
 
