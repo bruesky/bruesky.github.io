@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    class CompanyName
+    {
+        constructor()
+        {
+            this.company="CCS";
+        }
+    }
+    class Employee extends CompanyName {
+        constructor(id,name) {
+            super();
+            this.id=id;
+            this.name=name;
+        }
+    }
+    var emp = new Employee(1,"John");
+    document.writeln(emp.id+" "+emp.name+" "+emp.company+"<br>");
+</script>
+
+<script>
+    class Test {
+        static display() {
+            return "static method is invoked"
+        }
+
+        show() {
+            document.writeln(Test.display()+"<br>");
+        }
+    }
+    var t=new Test();
+    t.show();
+</script>
+
+</body>
+</html>

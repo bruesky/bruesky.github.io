@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var address=
+        {
+            company:"BBB",
+            city:"SH",
+            state:"UP",
+            fullAddress:function()
+            {
+                return this.company+" "+this.city+" "+this.state;
+            }
+        };
+
+
+    var fetch=address.fullAddress();
+    document.writeln(fetch);
+
+    var website="github";
+    function web()
+    {
+        document.write(this.website);
+    }
+    web();
+
+    var emp_address = {
+        fullAddress: function() {
+            return this.company + " " + this.city+" "+this.state;
+        }
+    }
+    var address = {
+        company:"11",
+        city:"22",
+        state:"33",
+
+    }
+
+    document.writeln(emp_address.fullAddress.call(address));
+    document.writeln(emp_address.fullAddress.apply(address));
+
+    var lang="Java";
+
+    function lang_name(call)
+    {
+
+        call();
+    };
+
+    var obj={
+
+        lang:"JavaScript",
+        language:function()
+        {
+            document.writeln(this.lang+ " is a popular programming language.");
+        }
+    };
+    obj.language();
+    lang_name(obj.language);
+    lang_name(obj.language.bind(obj));
+
+</script>
+
+</body>
+</html>

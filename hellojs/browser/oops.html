@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //Declaring class
+    class Employee
+    {
+    //Initializing an object
+        constructor(id,name)
+        {
+            this.id=id;
+            this.name=name;
+        }
+    //Declaring method
+        detail()
+        {
+            document.writeln(this.id+" "+this.name+"<br>")
+        }
+    }
+    //passing object to a variable
+    var e1=new Employee(101,"Martin Roy");
+    var e2=new Employee(102,"Duke William");
+    e1.detail(); //calling method
+    e2.detail();
+
+    var emp = class {
+        constructor(id, name) {
+            this.id = id;
+            this.name = name;
+        }
+    };
+    document.writeln(emp.name);
+
+    var emp=class
+    {
+//Initializing an object
+        constructor(id,name)
+        {
+            this.id=id;
+            this.name=name;
+        }
+        detail()
+        {
+            document.writeln(this.id+" "+this.name+"<br>")
+        }
+    }
+    //passing object to a variable
+    var e1=new emp(103,"James Bella");
+    var e2=new emp(104,"Nick Johnson");
+    e1.detail(); //calling method
+    e2.detail();
+</script>
+
+<script>
+    function Employee2(firstName,lastName)
+    {
+        this.firstName=firstName;
+        this.lastName=lastName;
+    }
+
+    Employee2.prototype.fullName=function()
+    {
+        return this.firstName+" "+this.lastName;
+    }
+
+    var employee1=new Employee2("Martin","Roy");
+    var employee2=new Employee2("Duke", "William");
+    document.writeln(employee1.fullName()+"<br>");
+    document.writeln(employee2.fullName());
+</script>
+</body>
+</html>

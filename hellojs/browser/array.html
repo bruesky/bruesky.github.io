@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+By array literal <br/>
+
+<script>
+    var hello = "hello there!!!";
+    window.hi = "hi there!!!";
+    var emp=["Sonoo","Vimal","Ratan"];
+    for (i=0;i<emp.length;i++){
+        document.write(emp[i] + "<br/>");
+    }
+</script>
+
+<br/>By creating instance of Array directly (using new keyword)<br/>
+
+<script>
+    var i;
+    var emp = new Array();
+    emp[0] = "Arun";
+    emp[1] = "Varun";
+    emp[2] = "John";
+
+    for (i=0;i<emp.length;i++){
+        document.write(emp[i] + "<br>");
+    }
+</script>
+<br/>By using an Array constructor (using new keyword)<br/>
+
+<script>
+    var emp=new Array("Jai","Vijay","Smith");
+    for (i=0;i<emp.length;i++){
+        document.write(emp[i] + "<br>");
+    }
+    document.write(hello + "<br>"+hi+ "<br>");
+</script>
+
+<script>
+    var str="This is string literal";
+    document.write(str+ "<br>");
+
+    var stringname=new String("hello javascript string");
+    document.write(stringname+ "<br>");
+
+    var str="javascript";
+    document.write(str.charAt(2)+ "<br>");
+
+    var s1="javascript ";
+    var s2="concat example";
+    var s3=s1.concat(s2);
+    document.write(s3+ "<br>");
+
+    var s1="     javascript trim    ";
+    var s2=s1.trim();
+    document.write(s2);
+</script>
+
+</body>
+</html>

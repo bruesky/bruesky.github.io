@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--JavaScript Inheritance-->
+<!--The JavaScript inheritance is a mechanism that allows us to create
+new classes on the basis of already existing classes. It provides flexibility
+to the child class to reuse the methods and variables of a parent class.-->
+
+<!--The JavaScript extends keyword is used to create a child class on the basis of a parent class.
+It facilitates child class to acquire all the properties and behavior of its parent class.-->
+
+<!--Points to remember-->
+<!--It maintains an IS-A relationship.-->
+<!--The extends keyword is used in class expressions or class declarations.-->
+<!--Using extends keyword, we can acquire all the properties and behavior of
+the inbuilt object as well as custom classes.-->
+<!--We can also use a prototype-based approach to achieve inheritance.-->
+
+<script>
+    class Bike
+    {
+        constructor()
+        {
+            this.company="Honda";
+        }
+    }
+    class Vehicle extends Bike {
+        constructor(name,price) {
+            super();
+            this.name=name;
+            this.price=price;
+        }
+    }
+    var v = new Vehicle("Shine","70000");
+    document.writeln(v.company+" "+v.name+" "+v.price);
+</script>
+
+<script>
+    //Constructor function
+    function Bike2(company)
+    {
+        this.company=company;
+    }
+
+    Bike2.prototype.getCompany=function()
+    {
+        return this.company;
+    }
+    //Another constructor function
+    function Vehicle2(name,price) {
+        this.name=name;
+        this.price=price;
+    }
+    var bike = new Bike2("Honda");
+    Vehicle2.prototype=bike; //Now Bike treats as a parent of Vehicle.
+    var vehicle=new Vehicle2("Shine",70000);
+    document.writeln(vehicle.getCompany()+" "+vehicle.name+" "+vehicle.price);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+Current Date<span id="txt"></span><br/>
+Time: <span id="txt2"></span><br/>
+Current Time: <span id="txt3"></span>
+<script>
+    var today=new Date();
+    document.getElementById('txt').innerHTML=today;
+    var day=today.getDate();
+    var month=today.getMonth()+1;
+    var year=today.getFullYear();
+    document.write("<br>Date is: "+day+"/"+month+"/"+year);
+
+    var h=today.getHours();
+    var m=today.getMinutes();
+    var s=today.getSeconds();
+    document.getElementById('txt2').innerHTML=h+":"+m+":"+s;
+
+    window.onload=function(){getTime();}
+    function getTime(){
+        var today=new Date();
+        var h=today.getHours();
+        var m=today.getMinutes();
+        var s=today.getSeconds();
+// add a zero in front of numbers<10
+        m=checkTime(m);
+        s=checkTime(s);
+        document.getElementById('txt3').innerHTML=h+":"+m+":"+s;
+        setTimeout(function(){getTime()},1000);
+    }
+
+    function checkTime(i){
+        if (i<10){
+            i="0" + i;
+        }
+        return i;
+    }
+</script>
+
+</body>
+</html>
