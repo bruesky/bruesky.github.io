@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var grade='B';
+    var result;
+    switch(grade){
+        case 'A':
+            result="A Grade";
+            break;
+        case 'B':
+            result="B Grade";
+            break;
+        case 'C':
+            result="C Grade";
+            break;
+        default:
+            result="No Grade";
+    }
+    document.write(result+"<br/>");
+
+
+    // There are four types of loops in JavaScript.
+    //
+    // for loop
+    // while loop
+    // do-while loop
+    // for-in loop
+    document.write("for loop <br/>");
+    for (i=1; i<=5; i++)
+    {
+        document.write(i + "<br/>")
+    }
+
+    document.write("while loop <br/>");
+    var i=11;
+    while (i<=15)
+    {
+        document.write(i + "<br/>");
+        i++;
+    }
+
+    document.write("do-while loop <br/>");
+
+    var i=21;
+    do{
+        document.write(i + "<br/>");
+        i++;
+    }while (i<=25);
+
+    function getInfo(){
+        return "hello! How r u?";
+    }
+
+    document.write(getInfo());
+
+    var pow=new Function("num1","num2","return Math.pow(num1,num2)");
+    document.writeln(pow(2,3));
+
+
+</script>
+</body>
+</html>
