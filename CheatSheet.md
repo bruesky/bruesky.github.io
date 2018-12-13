@@ -1,2 +1,5 @@
 [git-cheatsheet](http://www.ndpsoftware.com/git-cheatsheet.html)   
-
+[linux](http://cn.linux.vbird.org)   
+[Beej's Guide to Network Programming 简体中文版](http://beej-zhcn.netdpi.net)   
+[Beej's Guide to Network Programming](https://beej.us/guide/bgnet/)   
+[Real-Time Rendering](http://www.realtimerendering.com/book.html)   
