@@ -1,0 +1,25 @@
+body{
+    background-color: rgb(128, 115, 79)
+}
+
+h1{
+    color: cadetblue;
+    font-family: Arial,Georgia, Times New Roman;
+}
+
+h3{
+    color: cadetblue;
+}
+
+p>strong{
+    color: red
+}
+
+img{
+    width: 150px;
+    height: 100px;
+}
+
+ol{
+    list-style-type: decimal;
+}
