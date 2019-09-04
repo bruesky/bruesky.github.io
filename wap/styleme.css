@@ -15,11 +15,37 @@ p>strong{
     color: red
 }
 
-img{
+img.moods{
     width: 150px;
     height: 100px;
 }
 
 ol{
-    list-style-type: decimal;
+    list-style-type:none;
+    counter-reset:item 4;
+}
+
+ol > li{
+    counter-increment:item -1;
+}
+
+ol > li:before
+{
+    content:counter(item) ". ";
+}
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: chartreuse;
+    text-decoration-line: underline;
+}
+
+p::first-letter{
+    color: #903;
+  float: left;
+  font-family: Georgia;
+  font-size: 1.5em;
 }
