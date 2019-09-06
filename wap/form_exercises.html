@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form Exercise</title>
+    <link rel="stylesheet" href="fe.css">
+</head>
+
+<body>
+    <div id="titleblockbg">
+        <div id="titleblock">
+            <span id="titlename">Workshop Registration</span>
+            <select name="menuselect" id="Menuselect">
+                <optgroup label="More">
+                    <option value="ma">Menu A</option>
+                    <option value="mb">Menu B</option>
+                    <option value="mc">Menu C</option>
+                    <option value="md">Menu D</option>
+                    <option value="me">Menu E</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+
+    <form action="">
+        <p id="formdesc">Register now while seat are available!</p>
+
+        <div id="divparent">
+            <div class="divchild ">
+                <div class="item">
+                    <div class="itemcontent">
+                        First Name:
+                    </div>
+                    <div class="itemcontent">
+                        <input id="firstname" type="text" required>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="itemcontent">
+                        Last Name:
+                    </div>
+                    <div class="itemcontent">
+                        <input id="lastname" type="text" required>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="itemcontent">
+                        Company:
+                    </div>
+                    <div class="itemcontent">
+                        <input id="company" type="text">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="itemcontent">
+                        Adress:
+                    </div>
+                    <div class="itemcontent">
+                        <textarea name="adress" id="adress" cols="40" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="itemcontent">
+                        City:
+                    </div>
+                    <div class="itemcontent">
+                        <input id="city" type="text">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="itemcontent">
+                        State:
+                    </div>
+                    <div class="itemcontent">
+                        <select name="state" id="state">
+                            <option value="iowa">IA</option>
+                            <option value="ca">CA</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="itemcontent">
+                        Country:
+                    </div>
+                    <div class="itemcontent">
+                        <select name="country" id="country">
+                            <option value="usa">USA</option>
+                            <option value="usa">China</option>
+                            <option value="usa">Earth</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="itemcontent">
+                        Email:
+                    </div>
+                    <div class="itemcontent">
+                        <input id="email" type="email" pattern="^[a-z0-9._+\- ]+@[a-z0-9.\-]+\.[a-z]{2,3}$">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="itemcontent">
+                        Phone Number:
+                    </div>
+                    <div class="itemcontent">
+                        <input id="phone" type="text" pattern="^\d{10,10}$">
+                    </div>
+                </div>
+            </div>
+            <div class="divchild">
+                <div class="item">
+                    <div class="itemcontent itemtext">
+                        Lunch:
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="itemcontent">
+                        Meal preference:
+                    </div>
+                    <div class="itemcontent">
+                        <select name="meal" id="meal">
+                            <option value="veg">Vegeterian</option>
+                            <option value="meat">Meat Man</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="itemcontent itemtext">
+                        Payment Detail:
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="itemcontent">
+                        Payment Model:
+                    </div>
+                    <div class="itemcontent">
+                        <input type="checkbox" name="payment" id="cash">Cash <br />
+                        <input type="checkbox" name="payment" id="check">Cheque <br />
+                        <input type="checkbox" name="payment" id="demanddraft">Demand Draft
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="itemcontent">
+                        DD/Cheque NO.:
+                    </div>
+                    <div class="itemcontent">
+                        <input id="firstname" type="text">
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="itemcontent">
+                        Drawn On:
+                    </div>
+                    <div class="itemcontent">
+                        <input id="drawon" type="text">
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="itemcontent">
+                        Payable at:
+                    </div>
+                    <div class="itemcontent">
+                        <input id="payable" type="text">
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+        <div id="formsubmit">
+            <input type="reset" /> <input type="submit" />
+        </div>
+
+    </form>
+
+</body>
+
+</html>

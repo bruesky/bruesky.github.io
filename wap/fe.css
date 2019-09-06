@@ -1,0 +1,60 @@
+#titleblockbg{
+    background-color: aquamarine;
+    height: 2em;
+    /* border: 2px solid red; */
+}
+
+#titleblock{
+    margin: 0.5em;
+}
+
+#titlename{
+    
+    color: darkred;
+    font-weight: bolder;
+}
+
+form #formdesc{
+    text-decoration: blue;
+    text-decoration-line: underline;
+}
+
+form #formsubmit{
+    text-align: center;
+}
+
+#divparent{
+    display: flex;
+    width: 100%;
+    /* border: 2px solid red; */
+    flex-direction: row;
+}
+
+.divchild{
+    flex: 1;
+    /* border: 2px solid greenyellow; */
+    display: grid;
+    display: flex;
+    flex-direction: column;
+}
+
+.item{
+    display: flex;
+    width: 100%;
+    /* border: 1px solid purple; */
+    flex-direction: row;
+}
+
+.item .itemtext{
+    text-decoration: blue;
+    text-decoration-line: underline;
+}
+
+.itemcontent{
+    flex: 1;
+    /* border: 1px solid gold; */
+}
+
+.itemcontent input{
+
+}
