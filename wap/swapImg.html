@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function swap(){
+            let imgItem = document.getElementById('swapimg');
+            console.log(imgItem.src.search('angery'));
+            if(imgItem.src.search('angery') > -1){
+                imgItem.src = "happy.jpg";
+                console.log('happy');
+            }else{
+                imgItem.src="angery.jpg";
+                console.log('angery');
+            }
+        }
+    </script>
+    <img id="swapimg" src="angery.jpg" alt="" onclick="swap()" width="200" height="200">
+    
+</body>
+</html>
