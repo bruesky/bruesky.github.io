@@ -87,3 +87,10 @@ function myFunctionTest(expect,fun){
         return "TEST FAILED";
     }
 }
+
+window.onload = function(){
+    let e = document.getElementById('btn')
+    e.onclick = function(){
+        e.innerHTML = parseInt(e.innerHTML)+1;
+    }
+}
