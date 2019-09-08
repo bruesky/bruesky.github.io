@@ -12,6 +12,7 @@
 html {
 	margin: 0;
 	padding: 0;
+	border: #9685BA
 	}
 body { 
 	font: 75% georgia, sans-serif;
@@ -20,6 +21,7 @@ body {
 	background: #fff url(http://csszengarden.com/001/blossoms.jpg) no-repeat bottom right; 
 	margin: 0; 
 	padding: 0;
+	border: #B7A5DF solid;
 	}
 p { 
 	margin-top: 0; 
@@ -29,12 +31,13 @@ h3 {
 	font: italic normal 1.4em georgia, sans-serif;
 	letter-spacing: 1px; 
 	margin-bottom: 0; 
-	color: #7D775C;
+	color: rgb(105, 98, 65);
+	font-weight: bold;
 	}
 a:link { 
 	font-weight: bold; 
 	text-decoration: none; 
-	color: #B7A5DF;
+	color: rgb(51, 110, 199);
 	}
 a:visited { 
 	font-weight: bold; 
@@ -101,6 +104,7 @@ header {
 .summary p {
 	font: italic 1.1em/2.2 georgia; 
 	text-align: center;
+	border: burlywood 1px dashed;
 	}
 
 .preamble {
@@ -113,7 +117,7 @@ header {
 	}
 
 footer { 
-	text-align: center; 
+	text-align: right; 
 	}
 footer a:link, footer a:visited { 
 	margin-right: 20px; 
@@ -121,7 +125,7 @@ footer a:link, footer a:visited {
 
 .sidebar {
 	margin-left: 600px; 
-	position: absolute; 
+	position: fixed; 
 	top: 0; 
 	right: 0;
 	}
@@ -129,7 +133,7 @@ footer a:link, footer a:visited {
 	font: 10px verdana, sans-serif; 
 	background: transparent url(http://csszengarden.com/001/paper-bg.jpg) top left repeat-y; 
 	padding: 10px; 
-	margin-top: 150px; 
+	/* margin-top: 150px;  */
 	width: 130px; 
 	}
 .sidebar h3.select { 
@@ -184,11 +188,11 @@ footer a:link, footer a:visited {
 	}
 
 
-.extra1 {
+/* .extra1 {
 	background: transparent url(http://csszengarden.com/001/cr2.gif) top left no-repeat; 
 	position: absolute; 
 	top: 40px; 
 	right: 0; 
 	width: 148px; 
 	height: 110px;
-	}
+	} */
