@@ -1,5 +1,3 @@
-
-
 window.onload = function(){
     // cfg
     let normalDul = 250;
@@ -22,6 +20,7 @@ window.onload = function(){
     let ani;
     let aniIndex;
     let aniPlay;
+    let defaultFont;
     
     // ANIMATIONS
 
@@ -44,7 +43,8 @@ window.onload = function(){
     }
 
     fontsize.onchange = function(){
-        view.style.fontSize = fontCfg[fontsize.value];
+        defaultFont = fontsize.value;
+        view.style.fontSize = fontCfg[defaultFont];
     }
 
     turbo.onchange = function(){
@@ -58,6 +58,7 @@ window.onload = function(){
 
     function init(){
         delay = normalDul;
+        defaultFont = 'Medium';
         setAni('BLANK')
         loop();
     }
@@ -75,7 +76,7 @@ window.onload = function(){
         ani = aniCahe[aniName]
         aniIndex = 0;
         view.value = ani[aniIndex];
-        view.style.fontSize = fontCfg['Medium'];
+        view.style.fontSize = fontCfg[defaultFont];
         aniPlay = false;
     }
 
