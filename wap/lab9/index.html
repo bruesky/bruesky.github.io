@@ -1,0 +1,71 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ticket Booking</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="my.js"></script>
+</head>
+
+<body>
+    <form id="bookingform">
+        <div id="errors"></div>
+        <p>Name <input type="text" pattern="[a-zA-Z]+" title="Must be letter!" required id="name"></p>
+        <p>Street <input type="text" required id="street"></p>
+        <p>State <select name="" id="state">
+                <optgroup>
+                    <option value="">Select One</option>
+                    <option value="ca">CA</option>
+                    <option value="tx">Texas</option>
+                    <option value="ia">Iowa</option>
+                </optgroup>
+            </select> 
+        </p>
+        <p>Zip Code <input type="text" pattern="[0-9]{5}" title="Must be 5 digit!" required id="zip"></p>
+        <p>How many seats? <input type="text" required id="seats"></p>
+
+        <Fieldset>
+            <legend>Which taxi do you require?</legend>
+            <div>
+                <input type="radio" id="car" name="taxi" value="car">
+                <label for="car">Car</label>
+            </div>
+
+            <div>
+                <input type="radio" id="van" name="taxi" value="van">
+                <label for="van">Van</label>
+            </div>
+
+            <div>
+                <input type="radio" id="tuk" name="taxi" value="tuk">
+                <label for="tuk">Tuk Tuk</label>
+            </div>
+        </Fieldset>
+
+        <Fieldset>
+            <legend>Extra</legend>
+            <div>
+                <input type="radio" id="babyseat" name="extra" value="babyseat">
+                <label for="babyseat">Baby Seat</label>
+            </div>
+
+            <div>
+                <input type="radio" id="wheelchair" name="extra" value="wheelchair">
+                <label for="wheelchair">Wheel Chair</label>
+            </div>
+
+            <div>
+                <input type="radio" id="stocktip" name="extra" value="stocktip">
+                <label for="stocktip">Stock Tip</label>
+            </div>
+        </Fieldset>
+        <div>Special Instruction <textarea name="" id="special" cols="10" rows="3"></textarea></div>
+        <input type="submit" value="Submit Booking">
+    </form>
+
+
+</body>
+
+</html>
