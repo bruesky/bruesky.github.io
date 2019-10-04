@@ -1,7 +1,9 @@
 import React,{Component,Fragment} from 'react'
+import './style.css'
+import TodoItem from "./TodoItem";
 
 class TodoList extends Component{
-
+    //注释
     constructor(props){
         super(props);
         this.state = {
@@ -16,10 +18,13 @@ class TodoList extends Component{
     }
 
     handleButtonClick(){
-        this.setState({
-            list:[...this.state.list,this.state.inputValue],
-            inputValue: ""
-        });
+        if (this.state.inputValue){
+            this.setState({
+                list:[...this.state.list,this.state.inputValue],
+                inputValue: ""
+            });
+        }
+
     }
 
     handleItemDelete(index){
@@ -34,8 +39,12 @@ class TodoList extends Component{
         return(
             // eslint-disable-next-line react/react-in-jsx-scope
             <Fragment>
+                {/*JSX注释*/}
                 <div>
+                    <label htmlFor="insertArea">input plz</label>
                     <input
+                        id="insertArea"
+                        className='input'
                         value={this.state.inputValue}
                         onChange={this.handleInputChange.bind(this)}
                     />
@@ -47,12 +56,20 @@ class TodoList extends Component{
                     {
                         this.state.list.map((value, index, array)=>{
                             return(
-                            <li
-                                key={index}
-                                onClick={this.handleItemDelete.bind(this,index)}
-                            >
-                                {value}
-                            </li>)
+                                <div key={index}>
+                                    <TodoItem
+                                        value = {value}
+                                    ></TodoItem>
+                                    {/*<li*/}
+                                    {/*    key={index}*/}
+                                    {/*    onClick={this.handleItemDelete.bind(this,index)}*/}
+                                    {/*    dangerouslySetInnerHTML={{__html: value}}*/}
+                                    {/*>*/}
+                                    {/*     /!*{value}*!/*/}
+                                    {/*</li>*/}
+                                </div>
+
+                            )
                         })
                     }
                 </ul>
