@@ -1,6 +1,6 @@
 import React,{Component,Fragment} from 'react'
-import './style.css'
 import TodoItem from "./TodoItem";
+import './style.css'
 
 class TodoList extends Component{
     //注释
@@ -10,18 +10,28 @@ class TodoList extends Component{
             inputValue : '',
             list: []
         }
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleButtonClick = this.handleButtonClick.bind(this);
+        this.handleItemDelete = this.handleItemDelete.bind(this);
     }
 
     handleInputChange(event){
         // this.state.inputValue = event.target.value;
-        this.setState({inputValue:event.target.value});
+        const value = event.target.value;
+        this.setState((prevState)=>{
+            console.log(prevState);
+            return {inputValue:value}
+        });
     }
 
     handleButtonClick(){
         if (this.state.inputValue){
-            this.setState({
-                list:[...this.state.list,this.state.inputValue],
-                inputValue: ""
+            const list = [...this.state.list,this.state.inputValue];
+            this.setState(()=>{
+                return{
+                    list:list,
+                    inputValue: ""
+                }
             });
         }
 
@@ -30,9 +40,24 @@ class TodoList extends Component{
     handleItemDelete(index){
         const list = [...this.state.list];
         list.splice(index,1);
-        this.setState({
-            list: list,
+        this.setState(()=>{
+            return{
+                list: list,
+            }
         });
+    }
+
+    getItems(){
+        return this.state.list.map((value, index, array)=>{
+            return(
+                <TodoItem
+                    key={index}
+                    value = {value}
+                    index = {index}
+                    handleItemDelete = {this.handleItemDelete}
+                ></TodoItem>
+            )
+        })
     }
 
     render() {
@@ -46,32 +71,14 @@ class TodoList extends Component{
                         id="insertArea"
                         className='input'
                         value={this.state.inputValue}
-                        onChange={this.handleInputChange.bind(this)}
+                        onChange={this.handleInputChange}
                     />
                     <button
-                        onClick={this.handleButtonClick.bind(this)}
+                        onClick={this.handleButtonClick}
                     >Commit</button>
                 </div>
                 <ul>
-                    {
-                        this.state.list.map((value, index, array)=>{
-                            return(
-                                <div key={index}>
-                                    <TodoItem
-                                        value = {value}
-                                    ></TodoItem>
-                                    {/*<li*/}
-                                    {/*    key={index}*/}
-                                    {/*    onClick={this.handleItemDelete.bind(this,index)}*/}
-                                    {/*    dangerouslySetInnerHTML={{__html: value}}*/}
-                                    {/*>*/}
-                                    {/*     /!*{value}*!/*/}
-                                    {/*</li>*/}
-                                </div>
-
-                            )
-                        })
-                    }
+                    {this.getItems()}
                 </ul>
             </Fragment>
         )
