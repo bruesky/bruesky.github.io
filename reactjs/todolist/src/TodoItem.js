@@ -8,12 +8,36 @@ class TodoItem extends Component{
         this.handleClick = this.handleClick.bind(this);
     }
 
+    componentWillMount() {
+        console.log("componentWillMount");
+    }
+
+    componentDidMount() {
+        console.log("componentDidMount");
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+    }
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+    }
+
+    componentWillUnmount() {
+        console.log("componentWillUnmount");
+    }
+
+
+
     handleClick(){
         const {handleItemDelete,index} = this.props;
         handleItemDelete(index);
     }
 
     render() {
+        console.log("render");
         const {value} = this.props;
         return (
             <div onClick={this.handleClick}>{value}</div>
